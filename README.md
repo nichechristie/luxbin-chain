@@ -336,7 +336,8 @@ cargo build --release
 ```
 
 ### For Partners:
-- 📧 Email: [Your Email]
+- 📧 Email: nicholechristie555@gmail.com
+- 
 - 📄 Partnership Deck: [Link]
 - 📅 Schedule Meeting: [Calendar Link]
 
