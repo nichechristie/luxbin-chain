@@ -3,7 +3,7 @@
 
 **Presented by:** Nichole Christie
 **Date:** December 2025
-**Contact:** [Your Email]
+**Contact:** nicholechristie555@gmail.com
 
 ---
 
