@@ -1,194 +1,334 @@
-# Contributing
+# Contributing to LUXBIN
 
-The `Polkadot SDK` project is an **OPENISH Open Source Project**
+Thank you for your interest in contributing to LUXBIN! We welcome contributions from developers, researchers, and blockchain enthusiasts who share our vision of sustainable, decentralized AI.
 
-## What?
+## 🚀 Quick Start
 
-Individuals making significant and valuable contributions are given commit-access to the project. Contributions are done
-via pull-requests and need to be approved by the maintainers.
+### Development Environment Setup
 
-> **Note:** Contributors who are part of the organization do not need to fork the repository. They can create a branch
-> directly in the repository to send a pull request.
+1. **Prerequisites**
+   ```bash
+   # Install Rust
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   rustup install nightly-2024-01-01
+   rustup target add wasm32-unknown-unknown
 
-## How?
+   # Install system dependencies
+   sudo apt-get install -y clang libclang-dev llvm-dev pkg-config
+   ```
 
-In order to build this project you need to install some dependencies, follow the instructions in [this guide](https://docs.polkadot.com/develop/parachains/install-polkadot-sdk).
+2. **Clone and Setup**
+   ```bash
+   git clone https://github.com/luxbin/luxbin-chain.git
+   cd luxbin-chain
 
-## Rules
+   # Install git hooks (optional)
+   cargo install cargo-husky --version "1.5.0"
+   ```
 
-There are a few basic ground-rules for contributors (including the maintainer(s) of the project):
+3. **Build**
+   ```bash
+   # Build in debug mode
+   cargo build
 
-1. **No `--force` pushes** or modifying the master branch history in any way. If you need to rebase, ensure you do it in
-   your own repo. No rewriting of the history after the code has been shared (e.g. through a Pull-Request).
-2. **Non-master branches**, prefixed with a short name moniker (e.g. `gav-my-feature`) must be used for ongoing work.
-3. **All modifications** must be made in a **pull-request** to solicit feedback from other contributors.
-4. A pull-request **must not be merged until CI** has finished successfully.
-5. Contributors should adhere to the [house coding style](./STYLE_GUIDE.md).
-6. Contributors should adhere to the [house documenting style](./DOCUMENTATION_GUIDELINES.md), when applicable.
+   # Build in release mode
+   cargo build --release
 
-## Merge Process
+   # Run tests
+   cargo test
+   ```
 
-### In General
+## 📋 Contribution Guidelines
 
-* A Pull Request (PR) needs to be reviewed and approved by project maintainers.
-* If a change does not alter any logic (e.g. comments, dependencies, docs), then it may be tagged `A1-insubstantial` and
-merged faster.
-* No PR should be merged until all reviews' comments are addressed.
+### Code Style
 
-### Labels
+- **Rust Style**: Follow the official [Rust Style Guide](https://doc.rust-lang.org/style-guide/)
+- **Formatting**: Use `cargo fmt` to format code
+- **Linting**: Use `cargo clippy` for linting
+- **Documentation**: Document all public APIs with `///` comments
 
-The set of labels and their description can be found [here](https://paritytech.github.io/labels/doc_polkadot-sdk.html).
+### Commit Messages
 
-### Process
+Use conventional commit format:
+```
+type(scope): description
 
-1. Please use our [Pull Request Template](./PULL_REQUEST_TEMPLATE.md) and make sure all relevant information is
-   reflected in your PR.
-2. Please tag each PR with minimum one `T*` label. The respective `T*` labels should signal the component that was
-   changed, they are also used by downstream users to track changes and to include these changes properly into their own
-   releases.
-3. If you’re still working on your PR, please submit as “Draft”. Once a PR is ready for review change the status to
-   “Open”, so that the maintainers get to review your PR. Generally PRs should sit for 48 hours in order to garner
-   feedback. It may be merged before if all relevant parties had a look at it.
-4. With respect to auditing, please see [AUDIT.md](../AUDIT.md). In general, merging to master can happen independently of
-   audit.
-5. PRs will be able to be merged once all reviewers' comments are addressed and CI is successful.
+[optional body]
 
-**Noting breaking changes:** When breaking APIs, the PR description should mention what was changed alongside some
-examples on how to change the code to make it work/compile. It should also mention potential storage migrations and if
-they require some special setup aside from adding it to the list of migrations in the runtime.
-
-## Reviewing pull requests
-
-When reviewing a pull request, the end-goal is to suggest useful changes to the author. Reviews should finish with
-approval unless there are issues that would result in:
-1. Buggy behavior.
-2. Undue maintenance burden.
-3. Breaking with house coding style.
-4. Pessimization (i.e. reduction of speed as measured in the projects benchmarks).
-5. Feature reduction (i.e. it removes some aspect of functionality that a significant minority of users rely on).
-6. Uselessness (i.e. it does not strictly add a feature or fix a known issue).
-
-The reviewers are also responsible to check:
-
-* if the PR description is well written to facilitate integration, in case it contains breaking changes.
-* the PR has an impact on docs.
-
-**Reviews may not be used as an effective veto for a PR because**:
-1. There exists a somewhat cleaner/better/faster way of accomplishing the same feature/fix.
-2. It does not fit well with some other contributors' longer-term vision for the project.
-
-## `PRDoc`
-
-All Pull Requests must contain proper title & description, as described in [Pull Request
-Template](./PULL_REQUEST_TEMPLATE.md). Moreover, all pull requests must have a proper `prdoc` file attached.
-
-Pull Requests labelled with ⁠`R0-no-crate-publish-required` are exempt from ⁠prdoc documentation requirements.
-
-See more about `prdoc` [here](./prdoc.md)
-
-## Crate Configuration `Cargo.toml`
-
-The Polkadot SDK uses many conventions when configuring a crate. Watch out for these things when you
-are creating a new crate.
-
-### Is the Crate chain-specific?
-
-Chain-specific crates, for example
-[`bp-bridge-hub-rococo`](https://github.com/paritytech/polkadot-sdk/blob/4014b9bf2bf8f74862f63e7114e5c78009529be5/bridges/chains/chain-bridge-hub-rococo/Cargo.toml#L10-L11)
-, should not be released as part of the Polkadot-SDK umbrella crate. We have a custom metadata
-attribute that is picked up by the [generate-umbrella.py](../../scripts/generate-umbrella.py)
-script, that should be applied to all chain-specific crates like such:
-
-```toml
-[package]
-# Other stuff...
-
-[package.metadata.polkadot-sdk]
-exclude-from-umbrella = true
-
-# Other stuff...
+[optional footer]
 ```
 
-### Is the Crate a Test, Example or Fuzzer?
+Types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Code style changes
+- `refactor`: Code refactoring
+- `test`: Testing
+- `chore`: Maintenance
 
-Test or example crates, like
-[`pallet-example-task`](https://github.com/paritytech/polkadot-sdk/blob/9b4acf27b869d7cbb07b03f0857763b8c8cc7566/substrate/frame/examples/tasks/Cargo.toml#L9)
-, should not be released to crates.io. To ensure this, you must add `publish = false` to your
-crate's `package` section:
-
-```toml
-[package]
-# Other stuff...
-
-publish = false
-
-# Other stuff...
+Examples:
+```
+feat(ai-compute): add OpenAI API adapter
+fix(temporal-crypto): resolve key generation race condition
+docs(readme): update installation instructions
 ```
 
-## Helping out
+### Pull Request Process
 
-We use [labels](https://github.com/paritytech/polkadot-sdk/labels) to manage PRs and issues and communicate state of a
-PR. Please familiarise yourself with them. Best way to get started is to a pick a ticket tagged
-[easy](https://github.com/paritytech/polkadot-sdk/issues?q=is%3Aopen+is%3Aissue+label%3AD0-easy) or
-[medium](https://github.com/paritytech/polkadot-sdk/issues?q=is%3Aopen+is%3Aissue+label%3AD1-medium) and get going.
-Alternatively, look out for issues tagged
-[mentor](https://github.com/paritytech/polkadot-sdk/issues?q=is%3Aopen+is%3Aissue+label%3AC1-mentor) and get in contact
-with the mentor offering their support on that larger task.
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Make** your changes following the guidelines below
+4. **Test** your changes thoroughly
+5. **Commit** with conventional format
+6. **Push** to your fork
+7. **Create** a Pull Request with detailed description
 
-****
+### PR Requirements
 
-### Issues
+- ✅ **Tests Pass**: All existing tests pass
+- ✅ **New Tests**: Add tests for new functionality
+- ✅ **Documentation**: Update docs for API changes
+- ✅ **Code Review**: Request review from maintainers
+- ✅ **CI/CD**: GitHub Actions pass
 
-If what you are looking for is an answer rather than proposing a new feature or fix, search
-[https://substrate.stackexchange.com](https://substrate.stackexchange.com/) to see if an post already exists, and ask if
-not. Please do not file support issues here.
+## 🎯 Areas for Contribution
 
-Before opening a new issue search to see if a similar one already exists and leave a comment that you also experienced
-this issue or add your specifics that are related to an existing issue.
+### High Priority
 
-Please label issues with the following labels (only relevant for maintainer):
-1. `I*`  issue severity and type. EXACTLY ONE REQUIRED.
-2. `D*`  issue difficulty, suggesting the level of complexity this issue has. AT MOST ONE ALLOWED.
-3. `T*`  Issue topic. MULTIPLE ALLOWED.
+#### 🤖 AI Provider Adapters
+**Impact**: Enable new AI models and providers
+**Skills**: API integration, Rust
+**Tasks**:
+- Add Google Gemini adapter
+- Add Meta Llama API integration
+- Add local LLM support (Ollama, LM Studio)
+- Implement rate limiting and error handling
 
-## Releases
+#### ⚡ Energy Optimization
+**Impact**: Core value proposition
+**Skills**: Systems programming, performance optimization
+**Tasks**:
+- Implement real hardware energy monitoring
+- Add energy prediction algorithms
+- Optimize temporal cryptography performance
+- Create energy-aware load balancing
 
-Declaring formal releases remains the prerogative of the project maintainer(s). See [RELEASE.md](../RELEASE.md).
+#### 🔐 Temporal Cryptography
+**Impact**: Fundamental innovation
+**Skills**: Cryptography, mathematics
+**Tasks**:
+- Enhance entropy extraction algorithms
+- Add temporal proof optimizations
+- Implement advanced photonic encoding
+- Research additional temporal patterns
 
-## UI tests
+### Medium Priority
 
-UI tests are used for macros to ensure that the output of a macro doesn’t change and is in the expected format. These UI
-tests are sensible to any changes in the macro generated code or to switching the rust stable version. The tests are
-only run when the `RUN_UI_TESTS` environment variable is set. So, when the CI is for example complaining about failing
-UI tests and it is expected that they fail these tests need to be executed locally. To simplify the updating of the UI
-test output there is a script
-* `./scripts/update-ui-tests.sh`   to update the tests for a current rust version locally
-* `./scripts/update-ui-tests.sh 1.70` # to update the tests for a specific rust version locally
+#### 🌐 Off-Chain Workers
+**Impact**: System reliability
+**Skills**: Asynchronous programming, HTTP
+**Tasks**:
+- Implement robust HTTP client
+- Add retry logic and error recovery
+- Create monitoring and metrics
+- Add API key rotation
 
-Or if you have opened PR and you're member of `paritytech` - you can use [/cmd](./commands-readme.md)
-to run the tests for you in CI:
-* `/cmd update-ui` - will run the tests for the current rust version
-* `/cmd update-ui --image docker.io/paritytech/ci-unified:bullseye-1.70.0-2023-05-23` -
-will run the tests for the specified rust version and specified image
+#### 📊 Analytics & Monitoring
+**Impact**: User experience
+**Skills**: Data analysis, frontend
+**Tasks**:
+- Build energy consumption dashboard
+- Add performance metrics
+- Create user analytics
+- Implement alerting system
 
-## Feature Propagation
+### Research & Innovation
 
-We use [zepter](https://github.com/ggwpez/zepter) to enforce features are propagated between crates correctly.
+#### 🔬 Advanced Features
+**Impact**: Future roadmap
+**Skills**: Research, architecture
+**Tasks**:
+- Design cross-chain bridges
+- Research federated learning integration
+- Explore zero-knowledge proofs for AI
+- Investigate quantum-resistant temporal crypto
 
-## Command Bot
+## 🧪 Testing
 
-If you're member of **paritytech** org - you can use command-bot to run various of common commands in CI:
+### Unit Tests
+```bash
+# Run all tests
+cargo test
 
-Start with comment in PR: `/cmd --help` to see the list of available commands.
+# Run specific test
+cargo test test_temporal_key_generation
 
-## Debug builds
+# Run with coverage
+cargo install cargo-tarpaulin
+cargo tarpaulin --out Html
+```
 
-In order to improve build times for debug builds, the workspace `Cargo.toml` is configured to emit
-source line debug information only. If you need full debug info in your local debug builds,
-search for the line `debug = "line-tables-only"`  and comment it out.
+### Integration Tests
+```bash
+# Test with local network
+./scripts/test-integration.sh
 
-## Deprecating code
+# Test AI provider adapters
+./scripts/test-ai-adapters.sh
+```
 
-When deprecating and removing code you need to be mindful of how this could impact downstream developers. In order to
-mitigate this impact, it is recommended to adhere to the steps outlined in the [Deprecation
-Checklist](./DEPRECATION_CHECKLIST.md).
+### Benchmarks
+```bash
+# Run benchmarks
+cargo bench
+
+# Profile performance
+cargo build --release
+perf record target/release/solochain-template-node
+perf report
+```
+
+## 🐛 Bug Reports
+
+### Bug Report Template
+```markdown
+**Bug Description**
+Clear description of the issue
+
+**Steps to Reproduce**
+1. Go to '...'
+2. Click on '...'
+3. See error
+
+**Expected Behavior**
+What should happen
+
+**Actual Behavior**
+What actually happens
+
+**Environment**
+- OS: [e.g., Ubuntu 22.04]
+- Rust Version: [e.g., 1.75.0]
+- Branch: [e.g., main]
+
+**Additional Context**
+Any other relevant information
+```
+
+## 💡 Feature Requests
+
+### Feature Request Template
+```markdown
+**Problem Statement**
+What problem does this solve?
+
+**Proposed Solution**
+Describe your solution
+
+**Alternative Solutions**
+Other approaches considered
+
+**Implementation Plan**
+How would this be implemented?
+
+**Impact Assessment**
+- Breaking changes: Yes/No
+- Performance impact: High/Medium/Low
+- Security implications: Yes/No
+```
+
+## 📚 Documentation
+
+### Documentation Standards
+
+- **README**: Keep updated with new features
+- **Code Comments**: Document complex algorithms
+- **API Docs**: Use rustdoc for public APIs
+- **Guides**: Create tutorials for common tasks
+
+### Building Documentation
+```bash
+# Generate API docs
+cargo doc --open
+
+# Build user guides
+cd docs && make html
+```
+
+## 🔒 Security
+
+### Security Considerations
+
+- **Cryptographic Review**: All crypto code needs review
+- **API Key Handling**: Never log or expose API keys
+- **Input Validation**: Validate all external inputs
+- **Dependency Updates**: Keep dependencies updated
+
+### Reporting Security Issues
+
+**DO NOT** create public GitHub issues for security vulnerabilities.
+
+Email security issues to: security@luxbin.ai
+
+Include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (optional)
+
+## 🤝 Code of Conduct
+
+### Our Standards
+
+- **Respectful**: Be respectful to all contributors
+- **Inclusive**: Welcome people from all backgrounds
+- **Collaborative**: Work together constructively
+- **Quality**: Maintain high code and communication standards
+
+### Enforcement
+
+Instances of unacceptable behavior may be reported to the maintainers. All complaints will be reviewed and investigated promptly.
+
+## 🎉 Recognition
+
+Contributors will be recognized through:
+- GitHub contributor statistics
+- Mention in release notes
+- Contributor spotlight on our website
+- LUXBIN token rewards (future)
+
+## 📞 Getting Help
+
+- **Discord**: https://discord.gg/luxbin
+- **GitHub Discussions**: For questions and general discussion
+- **Documentation**: Check docs/ folder first
+- **Issues**: Use GitHub issues for bugs and features
+
+## 📋 Development Workflow
+
+```mermaid
+graph LR
+    A[Fork Repository] --> B[Create Feature Branch]
+    B --> C[Make Changes]
+    C --> D[Write Tests]
+    D --> E[Run Tests]
+    E --> F[Update Documentation]
+    F --> G[Commit Changes]
+    G --> H[Push to Fork]
+    H --> I[Create PR]
+    I --> J[Code Review]
+    J --> K[Merge]
+```
+
+## 🔄 Release Process
+
+1. **Feature Freeze**: No new features for release
+2. **Testing Phase**: Comprehensive testing
+3. **Security Audit**: External security review
+4. **Release Candidate**: Deploy to testnet
+5. **Mainnet Release**: Full production deployment
+
+---
+
+Thank you for contributing to LUXBIN! Your efforts help build the future of sustainable, decentralized AI. 🌟

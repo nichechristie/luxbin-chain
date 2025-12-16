@@ -62,6 +62,10 @@ frame-system-benchmarking = { optional = true, workspace = true }
 # The pallet in this template.
 pallet-template = { workspace = true }
 
+# LUXBIN pallets
+pallet-temporal-crypto = { path = "../../../substrate/frame/temporal-crypto", default-features = false }
+pallet-ai-compute = { path = "../../../substrate/frame/ai-compute", default-features = false }
+
 [build-dependencies]
 substrate-wasm-builder = { optional = true, workspace = true, default-features = true }
 
@@ -82,6 +86,8 @@ std = [
 	"pallet-grandpa/std",
 	"pallet-sudo/std",
 	"pallet-template/std",
+	"pallet-temporal-crypto/std",
+	"pallet-ai-compute/std",
 	"pallet-timestamp/std",
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",

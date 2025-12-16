@@ -1,44 +1,99 @@
-!polkadot.service
-.cargo-remote.toml
-.direnv/
-.DS_Store
-.env*
-.idea
-.local
-.lycheecache
-.vscode
-.zed
-.wasm-binaries
-*.adoc
-*.bin
-*.iml
-*.orig
-*.rej
-*.swp
-*.wasm
-**/._*
-**/.criterion/
-**/*.rs.bk
-**/hfuzz_target/
-**/hfuzz_workspace/
-**/node_modules
-**/target/
-**/wip/*.stderr
-**/__pycache__/
-/.cargo/config
-/.envrc
-artifacts
-bin/node-template/Cargo.lock
-nohup.out
-polkadot_argument_parsing
-!docs/sdk/src/polkadot_sdk/polkadot.rs
-pwasm-alloc/Cargo.lock
-pwasm-libc/Cargo.lock
-release-artifacts
-release.json
-rls*.log
-runtime/wasm/target/
-substrate.code-workspace
+# Rust
 target/
-*.scale
-rustc-ice-*
+Cargo.lock
+**/*.rs.bk
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database files
+*.db
+*.db-journal
+
+# Node data
+chains/
+network/
+
+# Build artifacts
+build/
+dist/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment variables
+.env
+.env.local
+
+# Secrets and keys (IMPORTANT: Never commit these!)
+*.key
+*.pem
+secrets/
+keys/
+
+# Benchmark results
+benchmarks/
+
+# Documentation build
+docs/build/
+docs/.doctrees/
+
+# Test coverage
+coverage/
+*.profraw
+
+# Backup files
+*.bak
+*.backup
+
+# Substrate specific
+node_modules/
+wasm/
+
+# Cargo
+.cargo/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Python (if any)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Temporary directories
+tmp/
+temp/

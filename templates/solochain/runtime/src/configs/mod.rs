@@ -169,3 +169,27 @@ impl pallet_template::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type WeightInfo = pallet_template::weights::SubstrateWeight<Runtime>;
 }
+
+parameter_types! {
+	/// Temporal key validity window: 60 seconds
+	pub const TemporalWindow: u64 = 60;
+	/// Maximum number of AI models per node
+	pub const MaxModelsPerNode: u32 = 10;
+	/// Maximum tokens per AI request
+	pub const MaxTokensPerRequest: u32 = 4096;
+}
+
+/// Configure the LUXBIN temporal crypto pallet
+impl pallet_temporal_crypto::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type TimeProvider = pallet_timestamp::Pallet<Runtime>;
+	type TemporalWindow = TemporalWindow;
+	type Currency = Balances;
+}
+
+/// Configure the LUXBIN AI compute pallet
+impl pallet_ai_compute::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type MaxModelsPerNode = MaxModelsPerNode;
+	type MaxTokensPerRequest = MaxTokensPerRequest;
+}

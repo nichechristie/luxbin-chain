@@ -219,4 +219,11 @@ mod runtime {
 	// Include the custom logic from the pallet-template in the runtime.
 	#[runtime::pallet_index(7)]
 	pub type Template = pallet_template;
+
+	// LUXBIN pallets for temporal cryptography and AI compute
+	#[runtime::pallet_index(8)]
+	pub type TemporalCrypto = pallet_temporal_crypto;
+
+	#[runtime::pallet_index(9)]
+	pub type AICompute = pallet_ai_compute;
 }

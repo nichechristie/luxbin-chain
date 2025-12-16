@@ -11306,6 +11306,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-ai-compute"
+version = "1.0.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "pallet-balances",
+ "pallet-temporal-crypto",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "scale-info",
+ "sha3",
+ "sp-core 28.0.0",
+ "sp-io",
+ "sp-runtime",
+ "sp-std 14.0.0",
+]
+
+[[package]]
 name = "pallet-alliance"
 version = "27.0.0"
 dependencies = [
@@ -13915,6 +13934,24 @@ dependencies = [
  "sp-core 28.0.0",
  "sp-io",
  "sp-runtime",
+]
+
+[[package]]
+name = "pallet-temporal-crypto"
+version = "1.0.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "pallet-balances",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "scale-info",
+ "sha3",
+ "sp-core 28.0.0",
+ "sp-io",
+ "sp-runtime",
+ "sp-std 14.0.0",
 ]
 
 [[package]]
@@ -22568,11 +22605,13 @@ dependencies = [
  "frame-system-benchmarking",
  "frame-system-rpc-runtime-api",
  "frame-try-runtime",
+ "pallet-ai-compute",
  "pallet-aura",
  "pallet-balances",
  "pallet-grandpa",
  "pallet-sudo",
  "pallet-template",
+ "pallet-temporal-crypto",
  "pallet-timestamp",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
