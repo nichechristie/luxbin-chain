@@ -28,6 +28,9 @@ export default function APIDocsPage() {
               <Link href="/" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
                 ← Home
               </Link>
+              <Link href="/about" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                About
+              </Link>
               <Link href="/mirror" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
                 Mirror
               </Link>
