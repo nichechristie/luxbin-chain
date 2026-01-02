@@ -20,6 +20,8 @@ import re
 # Import the new tools
 from tools.blockchain_tools import LuxbinBlockchainTools
 from tools.security_tools import LuxbinSecurityTools
+from models.ai_model_router import AIModelRouter
+from photonic_encoder import LuxbinPhotonicEncoder
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +48,8 @@ class LuxbinAutonomousAI:
         # Initialize autonomous tools
         self.blockchain_tools = LuxbinBlockchainTools()
         self.security_tools = LuxbinSecurityTools()
+        self.ai_router = AIModelRouter()
+        self.photonic_encoder = LuxbinPhotonicEncoder()
 
         # Personality and memory system
         self.personality = self._load_personality()
@@ -236,6 +240,73 @@ class LuxbinAutonomousAI:
         for interest in interests:
             self.user_profile[interest] = self.user_profile.get(interest, 0) + 1
 
+    def _add_photonic_encoding_to_response(self, response: str, function_results: List[Dict]) -> str:
+        """Add photonic encoding visualization to code in responses"""
+        import re
+
+        # Find code blocks in the response
+        code_block_pattern = r'```(\w+)?\n(.*?)\n```'
+        code_blocks = re.findall(code_block_pattern, response, re.DOTALL)
+
+        if not code_blocks:
+            return response
+
+        # Process each code block
+        enhanced_response = response
+        for language, code in code_blocks:
+            if code.strip() and len(code.strip()) > 10:  # Only meaningful code
+                try:
+                    # Encode to photonic
+                    photonic_encoding = self.photonic_encoder.encode_code_to_photonic(code, language or 'auto')
+
+                    # Add photonic visualization
+                    photonic_info = f"\n\n⚡ **Photonic Encoding (Light-Speed Processing):**\n"
+                    photonic_info += f"Light Speed Factor: {photonic_encoding['light_speed_factor']:.1%}\n"
+                    photonic_info += f"Quantum Coherence: {photonic_encoding['quantum_coherence']:.1%}\n"
+                    photonic_info += f"Photonic Code: {photonic_encoding['photonic_code'][:30]}...\n"
+
+                    # Insert after the code block
+                    code_block_full = f"```{language}\n{code}\n```"
+                    enhanced_block = code_block_full + photonic_info
+                    enhanced_response = enhanced_response.replace(code_block_full, enhanced_block, 1)
+
+                except Exception as e:
+                    logger.warning(f"Photonic encoding failed: {e}")
+                    continue
+
+        return enhanced_response
+
+    def _add_performance_metrics(self, model_used: str, function_results: List[Dict]) -> str:
+        """Add performance metrics to response"""
+        metrics = []
+
+        # Function call performance
+        if function_results:
+            successful_calls = len([r for r in function_results if r.get('success', False)])
+            total_calls = len(function_results)
+            success_rate = successful_calls / total_calls if total_calls > 0 else 0
+            metrics.append(f"⚡ Function Calls: {successful_calls}/{total_calls} successful ({success_rate:.1%})")
+
+        # Model performance
+        if hasattr(self.ai_router, 'usage_stats') and self.ai_router.usage_stats:
+            model_stats = self.ai_router.usage_stats.get(model_used, {})
+            if model_stats.get('total_calls', 0) > 0:
+                avg_time = model_stats.get('total_time', 0) / model_stats.get('total_calls', 1)
+                total_cost = model_stats.get('total_cost', 0)
+                metrics.append(f"⏱️ Response Time: {avg_time:.2f}s | 💰 Cost: ${total_cost:.4f}")
+
+        # Photonic encoding stats
+        if hasattr(self.photonic_encoder, 'encoding_stats'):
+            encoding_stats = self.photonic_encoder.encoding_stats
+            if encoding_stats.get('total_encodings', 0) > 0:
+                avg_encode_time = encoding_stats.get('avg_encode_time', 0)
+                cache_hit_rate = encoding_stats.get('cache_hits', 0) / (encoding_stats.get('cache_hits', 0) + encoding_stats.get('cache_misses', 0)) if encoding_stats.get('cache_hits', 0) + encoding_stats.get('cache_misses', 0) > 0 else 0
+                metrics.append(f"💫 Photonic Processing: {avg_encode_time:.3f}s avg | Cache: {cache_hit_rate:.1%}")
+
+        if metrics:
+            return "\n\n📊 **Performance Metrics:**\n" + "\n".join(f"• {metric}" for metric in metrics)
+        return ""
+
     def add_to_history(self, role: str, content: str):
         """Add message to conversation history"""
         self.conversation_history.append({
@@ -423,15 +494,29 @@ Always reference real code from our repository. Be the most advanced AI assistan
                 "content": f"User interests based on conversation: {interest_str}"
             })
 
-        # Generate response using available AI
+        # Route to best AI model based on task complexity
+        best_model = self.ai_router.route_task(user_query, {
+            'has_codebase_context': bool(context),
+            'needs_function_calling': bool(function_results),
+            'conversation_length': len(self.conversation_history)
+        })
+
+        # Generate response using the routed AI model
         response = ""
         try:
-            if self.anthropic_client:
+            if best_model == 'luxbin-local':
+                response = self._generate_fallback_response(user_query, context)
+            elif best_model.startswith('claude'):
                 response = self._generate_claude_response(messages)
-            elif self.openai_client:
+            elif best_model.startswith('gpt'):
                 response = self._generate_openai_response(messages)
             else:
-                response = self._generate_fallback_response(user_query, context)
+                # Use router to execute the task
+                router_response = self.ai_router.execute_task(best_model, messages)
+                if 'content' in router_response:
+                    response = router_response['content']
+                else:
+                    response = self._generate_fallback_response(user_query, context)
 
         except Exception as e:
             logger.error(f"AI generation failed: {e}")
@@ -439,6 +524,16 @@ Always reference real code from our repository. Be the most advanced AI assistan
 
         # Make response more human-like
         response = self._generate_human_like_response(response, user_query)
+
+        # Add photonic encoding for code snippets (symbolic light-speed processing)
+        response = self._add_photonic_encoding_to_response(response, function_results)
+
+        # Add model information for transparency
+        if best_model != 'luxbin-local':
+            response += f"\n\n🤖 *Powered by {best_model}*"
+
+        # Add performance metrics
+        response += self._add_performance_metrics(best_model, function_results)
 
         # Update user profile
         self._update_user_profile(user_query, response)
@@ -498,12 +593,20 @@ Always reference real code from our repository. Be the most advanced AI assistan
 
     def get_stats(self) -> Dict[str, Any]:
         """Get comprehensive AI system statistics"""
+        router_stats = self.ai_router.get_usage_stats()
+
         return {
             'conversation_length': len(self.conversation_history),
             'rag_stats': self.rag_search.get_database_stats(),
             'ai_clients': {
                 'openai': self.openai_client is not None,
                 'anthropic': self.anthropic_client is not None
+            },
+            'ai_router': {
+                'available_models': self.ai_router.get_available_models(),
+                'total_cost': router_stats.get('total_cost', 0),
+                'total_calls': router_stats.get('total_calls', 0),
+                'most_used_model': router_stats.get('most_used_model')
             },
             'function_calling': {
                 'available_functions': len(self.available_functions),
