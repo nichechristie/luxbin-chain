@@ -20,6 +20,8 @@ import re
 # Import the new tools
 from tools.blockchain_tools import LuxbinBlockchainTools
 from tools.security_tools import LuxbinSecurityTools
+from tools.game_dev_tools import LuxbinGameDevTools
+from tools.multimedia_tools import LuxbinMultimediaTools
 from models.ai_model_router import AIModelRouter
 from photonic_encoder import LuxbinPhotonicEncoder
 from memory.memory_manager import LuxbinMemoryManager
@@ -49,6 +51,8 @@ class LuxbinAutonomousAI:
         # Initialize autonomous tools
         self.blockchain_tools = LuxbinBlockchainTools()
         self.security_tools = LuxbinSecurityTools()
+        self.game_dev_tools = LuxbinGameDevTools()
+        self.multimedia_tools = LuxbinMultimediaTools()
         self.ai_router = AIModelRouter()
         self.photonic_encoder = LuxbinPhotonicEncoder()
         self.memory_manager = LuxbinMemoryManager()
@@ -66,7 +70,14 @@ class LuxbinAutonomousAI:
             'deploy_contract': self.blockchain_tools.deploy_contract,
             'run_mirror_scan': self.security_tools.run_mirror_scan,
             'search_code': self.security_tools.search_code,
-            'navigate_to': self.security_tools.navigate_to
+            'navigate_to': self.security_tools.navigate_to,
+            'generate_game_code': self.game_dev_tools.generate_game_code,
+            'create_game_asset': self.game_dev_tools.create_game_asset,
+            'optimize_game_performance': self.game_dev_tools.optimize_game_performance,
+            'generate_image': self.multimedia_tools.generate_image,
+            'generate_video': self.multimedia_tools.generate_video,
+            'create_animation': self.multimedia_tools.create_animation,
+            'enhance_image': self.multimedia_tools.enhance_image
         }
 
         logger.info("Luxbin Autonomous AI initialized with full function calling capabilities")
@@ -161,6 +172,36 @@ class LuxbinAutonomousAI:
             intent_analysis['suggested_functions'].append('navigate_to')
             intent_analysis['confidence'] = 0.7
             intent_analysis['reasoning'] = 'User wants to navigate to something'
+
+        # Game development intent
+        elif any(word in query_lower for word in ['game', 'unity', 'unreal', 'godot', 'character', 'script', 'asset']):
+            intent_analysis['needs_function_call'] = True
+            if any(word in query_lower for word in ['code', 'script', 'function', 'class']):
+                intent_analysis['suggested_functions'].append('generate_game_code')
+            elif any(word in query_lower for word in ['asset', 'model', 'texture', 'sound']):
+                intent_analysis['suggested_functions'].append('create_game_asset')
+            elif any(word in query_lower for word in ['optimize', 'performance', 'speed']):
+                intent_analysis['suggested_functions'].append('optimize_game_performance')
+            else:
+                intent_analysis['suggested_functions'].append('generate_game_code')
+            intent_analysis['confidence'] = 0.8
+            intent_analysis['reasoning'] = 'User wants game development assistance'
+
+        # Multimedia generation intent
+        elif any(word in query_lower for word in ['image', 'picture', 'art', 'visual', 'generate', 'create']) and \
+             any(word in query_lower for word in ['image', 'picture', 'photo', 'artwork', 'drawing', 'illustration']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('generate_image')
+            intent_analysis['confidence'] = 0.9
+            intent_analysis['reasoning'] = 'User wants to generate an image'
+        elif any(word in query_lower for word in ['video', 'animation', 'movie', 'film', 'clip']):
+            intent_analysis['needs_function_call'] = True
+            if 'animation' in query_lower or 'frames' in query_lower:
+                intent_analysis['suggested_functions'].append('create_animation')
+            else:
+                intent_analysis['suggested_functions'].append('generate_video')
+            intent_analysis['confidence'] = 0.85
+            intent_analysis['reasoning'] = 'User wants to generate a video or animation'
 
         return intent_analysis
 
@@ -467,6 +508,10 @@ Your capabilities:
 - Function calling for autonomous blockchain operations
 - Quantum security analysis and threat detection
 - Cross-chain interoperability tools
+- Game development assistance (Unity, Unreal, Godot)
+- Asset creation and code optimization
+- Multimedia generation (images, videos, animations)
+- Image editing and enhancement
 - Personality-driven human-like interactions
 
 Communication style:
@@ -483,6 +528,13 @@ Function calling available:
 - run_mirror_scan(target, type) - Comprehensive security scanning
 - search_code(query) - Advanced codebase search
 - navigate_to(destination) - Ecosystem navigation
+- generate_game_code(description, engine) - Create game scripts for Unity/Unreal/Godot
+- create_game_asset(description, type) - Generate game assets and models
+- optimize_game_performance(code, engine) - Optimize game code performance
+- generate_image(prompt, style, size) - Create AI-generated images
+- generate_video(description, duration, style) - Create AI-generated videos
+- create_animation(frames, fps) - Generate animations from frame descriptions
+- enhance_image(image_path, enhancements) - Edit and enhance existing images
 
 LUXBIN innovations:
 - Temporal cryptography with quantum resistance
@@ -674,7 +726,9 @@ Always reference real code from our repository. Be the most advanced AI assistan
             'function_calling': {
                 'available_functions': len(self.available_functions),
                 'blockchain_tools': len(self.blockchain_tools.get_tool_capabilities()['blockchain_tools']),
-                'security_tools': 'available'
+                'security_tools': 'available',
+                'game_dev_tools': self.game_dev_tools.get_game_dev_capabilities(),
+            'multimedia_tools': self.multimedia_tools.get_multimedia_capabilities()
             },
             'personality_traits': self.personality['traits'],
             'user_profile': self.user_profile,
