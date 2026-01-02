@@ -418,11 +418,11 @@ export default function AboutPage() {
                       transaction paths, while entanglement enables instant correlation detection across chains.
                     </p>
                     <div className="flex gap-4 flex-wrap">
-                      <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-sm transition-colors">
+                      <a href="https://colab.research.google.com/github/mermaidnicheboutique-code/luxbin-chain/blob/main/cirq-luxbin-integration.ipynb" target="_blank" className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-sm transition-colors">
                         🔬 View Cirq Integration
                       </a>
-                      <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors">
-                        📊 Colab Notebooks
+                      <a href="https://colab.research.google.com/github/mermaidnicheboutique-code/luxbin-chain/blob/main/colab-working-demo.ipynb" target="_blank" className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors">
+                        📊 Colab Working Demo
                       </a>
                     </div>
                   </div>
