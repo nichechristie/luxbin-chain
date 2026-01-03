@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
     // Find topics we haven't learned about recently
     const recentTopics = knowledge.slice(0, 10).map((k: any) => k.topic.toLowerCase());
     const unexloredTopics = LEARNING_TOPICS.filter(topic =>
-      !recentTopics.some(recent => recent.includes(topic.toLowerCase().split(' ')[0]))
+      !recentTopics.some((recent: string) => recent.includes(topic.toLowerCase().split(' ')[0]))
     );
 
     const topicToLearn = unexloredTopics[0] || LEARNING_TOPICS[Math.floor(Math.random() * LEARNING_TOPICS.length)];
