@@ -320,8 +320,10 @@ export function FloatingChatWidget() {
                     <div className="mt-3">
                       <button
                         onClick={() => {
-                          navigator.clipboard.writeText(message.metadata.contractCode);
-                          alert("Contract code copied! Paste in Remix to deploy for FREE on Base.");
+                          if (message.metadata?.contractCode) {
+                            navigator.clipboard.writeText(message.metadata.contractCode);
+                            alert("Contract code copied! Paste in Remix to deploy for FREE on Base.");
+                          }
                         }}
                         className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-lg text-xs hover:opacity-80 transition-opacity"
                       >
