@@ -225,9 +225,9 @@ export function FloatingChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
+        <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-black/90 backdrop-blur-xl border border-yellow-500/20 rounded-2xl shadow-2xl shadow-yellow-500/20 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-500/20 to-amber-500/20 border-b border-white/10 px-4 py-3">
+          <div className="bg-gradient-to-br from-purple-500/20 via-yellow-600/20 to-yellow-400/20 border-b border-yellow-500/20 px-4 py-3">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center gap-2">
                 <div
@@ -342,7 +342,7 @@ export function FloatingChatWidget() {
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isLoading}
-                className="bg-gradient-to-r from-purple-500 to-amber-500 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm font-semibold"
+                className="bg-gradient-to-r from-purple-600 via-yellow-600 to-yellow-500 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm font-semibold shadow-lg shadow-yellow-500/30"
               >
                 →
               </button>
