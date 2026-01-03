@@ -56,33 +56,26 @@ export async function POST(request: NextRequest) {
       heartbeat: blockchainState.heartbeat?.isAlive
     });
 
-    // Try Ollama first
+    // Try Python AI backend first (ChatGPT-powered)
     try {
-      const ollamaResponse = await fetch('http://localhost:11434/api/generate', {
+      const pythonResponse = await fetch('http://localhost:5001/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'llama3.2',
-          prompt: buildPrompt(messages, blockchainState),
-          stream: false,
-          options: {
-            temperature: 0.7,
-            num_predict: 500,
-          }
-        }),
-        signal: AbortSignal.timeout(10000), // 10 second timeout
+        body: JSON.stringify({ messages }),
+        signal: AbortSignal.timeout(15000), // 15 second timeout
       });
 
-      if (ollamaResponse.ok) {
-        const data = await ollamaResponse.json();
+      if (pythonResponse.ok) {
+        const data = await pythonResponse.json();
         return NextResponse.json({
-          reply: data.response.trim(),
-          source: 'ollama',
-          blockchainState
+          reply: data.reply,
+          source: data.source,
+          blockchainState,
+          metadata: data.metadata
         });
       }
-    } catch (ollamaError) {
-      console.log('Ollama unavailable, using fallback');
+    } catch (pythonError) {
+      console.log('Python AI backend unavailable, using fallback');
     }
 
     // Fallback to mock responses
