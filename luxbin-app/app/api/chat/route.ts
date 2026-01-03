@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
         if (toolCalls && toolCalls.length > 0) {
           // Execute web search
           const toolCall = toolCalls[0];
-          if (toolCall.function.name === 'search_web') {
+          if (toolCall.type === 'function' && toolCall.function.name === 'search_web') {
             const args = JSON.parse(toolCall.function.arguments);
             const searchResults = await searchWeb(args.query, args.num_results || 5);
             const formattedResults = formatSearchResults(searchResults);
@@ -226,7 +226,7 @@ export async function POST(request: NextRequest) {
         const toolCalls = aiCompletion.choices[0]?.message?.tool_calls;
         if (toolCalls && toolCalls.length > 0) {
           const toolCall = toolCalls[0];
-          if (toolCall.function.name === 'search_web') {
+          if (toolCall.type === 'function' && toolCall.function.name === 'search_web') {
             const args = JSON.parse(toolCall.function.arguments);
             const searchResults = await searchWeb(args.query, args.num_results || 5);
             const formattedResults = formatSearchResults(searchResults);
