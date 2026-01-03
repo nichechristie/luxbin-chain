@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { blockchainClient, type BlockchainAIState } from '@/lib/blockchainClient';
 import { infiniteMemory } from '@/lib/infiniteMemory';
 import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 import { searchWeb, formatSearchResults } from '@/lib/webSearch';
 
 interface Message {
@@ -18,6 +19,11 @@ const openai = new OpenAI({
 const grok = new OpenAI({
   apiKey: process.env.GROK_API_KEY || '',
   baseURL: 'https://api.x.ai/v1',
+});
+
+// Initialize Claude for contract deployment
+const claude = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY || '',
 });
 
 const LUXBIN_KNOWLEDGE = `You are the LUXBIN AI Assistant - a sophisticated, charismatic, and emotionally intelligent conversational AI with full personality and charm.
@@ -178,6 +184,39 @@ export async function POST(request: NextRequest) {
     const userMessage = messages[messages.length - 1]?.content || '';
     const emotion = detectEmotion(userMessage);
     const isFlirty = detectFlirtyConversation(userMessage);
+
+    // Check for contract deployment requests
+    const isDeploymentRequest = /deploy|create|generate.*contract|smart contract/i.test(userMessage);
+
+    if (isDeploymentRequest && process.env.ANTHROPIC_API_KEY) {
+      try {
+        const contractPrompt = `You are a smart contract expert. Generate a Solidity contract based on this user request: "${userMessage}"
+
+Requirements:
+- Use OpenZeppelin standards
+- Include light/temporal encoding comments (e.g., // Temporal key: block.timestamp)
+- Make it deployable on Luxbin/Base
+- Add security features
+
+Provide only the complete Solidity code, no explanations.`;
+
+        const claudeResponse = await claude.messages.create({
+          model: 'claude-3-sonnet-20240229',
+          max_tokens: 2000,
+          messages: [{ role: 'user', content: contractPrompt }],
+        });
+
+        const contractCode = claudeResponse.content[0].type === 'text' ? claudeResponse.content[0].text : '';
+
+        return NextResponse.json({
+          message: `I've generated a light-encoded smart contract for you! Here's the code:\n\n\`\`\`solidity\n${contractCode}\n\`\`\`\n\nTo deploy, copy this to Remix and deploy on Luxbin/Base. Would you like me to modify it?`,
+          blockchainState,
+        });
+      } catch (error) {
+        console.error('Claude deployment error:', error);
+        // Fall back to normal chat
+      }
+    }
 
     // Use Grok for flirty/creative conversations (more playful & unrestricted)
     if (isFlirty && process.env.GROK_API_KEY) {
