@@ -108,19 +108,23 @@ class InfiniteMemorySystem {
 
     // Apply filters
     if (options?.type) {
-      memories = memories.filter(m => m.type === options.type);
+      const type = options.type;
+      memories = memories.filter(m => m.type === type);
     }
 
     if (options?.category) {
-      memories = memories.filter(m => m.category === options.category);
+      const category = options.category;
+      memories = memories.filter(m => m.category === category);
     }
 
     if (options?.since) {
-      memories = memories.filter(m => m.timestamp >= options.since);
+      const since = options.since;
+      memories = memories.filter(m => m.timestamp >= since);
     }
 
     if (options?.minImportance !== undefined) {
-      memories = memories.filter(m => m.importance >= options.minImportance);
+      const minImportance = options.minImportance;
+      memories = memories.filter(m => m.importance >= minImportance);
     }
 
     // Sort by timestamp (newest first)
@@ -128,7 +132,8 @@ class InfiniteMemorySystem {
 
     // Apply limit
     if (options?.limit) {
-      memories = memories.slice(0, options.limit);
+      const limit = options.limit;
+      memories = memories.slice(0, limit);
     }
 
     return memories;
