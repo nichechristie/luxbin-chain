@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="base:app_id" content="695963dcc63ad876c9081f62" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
