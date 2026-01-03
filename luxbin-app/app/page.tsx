@@ -437,8 +437,8 @@ export default function Home() {
               <div>
                 <h3 className="font-bold mb-4">Developers</h3>
                 <ul className="space-y-2 text-sm text-gray-400">
-                  <li><Link href="/developers" className="hover:text-white">Documentation</Link></li>
-                  <li><Link href="/api-docs" className="hover:text-white">API Reference</Link></li>
+                  <li><a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="hover:text-white">Documentation</a></li>
+                  <li><a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="hover:text-white">API Reference</a></li>
                   <li><a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="hover:text-white">GitHub</a></li>
                 </ul>
               </div>
@@ -453,8 +453,8 @@ export default function Home() {
               <div>
                 <h3 className="font-bold mb-4">Resources</h3>
                 <ul className="space-y-2 text-sm text-gray-400">
-                  <li><a href="#" className="hover:text-white">Whitepaper</a></li>
-                  <li><a href="#" className="hover:text-white">Brand Kit</a></li>
+                  <li><a href="https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/luxbin-paper.pdf" target="_blank" className="hover:text-white">Whitepaper</a></li>
+                  <li><a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="hover:text-white">Brand Kit</a></li>
                   <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
                 </ul>
               </div>
