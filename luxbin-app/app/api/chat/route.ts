@@ -246,7 +246,11 @@ Provide only the complete Solidity code, no explanations.`;
           size: '1024x1024',
         });
 
-        const imageUrl = imageResponse.data[0].url;
+        const imageUrl = imageResponse.data?.[0]?.url;
+
+        if (!imageUrl) {
+          throw new Error('No image generated');
+        }
 
         return NextResponse.json({
           message: `I've generated an AI image for you! [View Image](${imageUrl})`,
