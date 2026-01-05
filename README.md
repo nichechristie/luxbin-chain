@@ -1,190 +1,161 @@
-🌟 LUXBIN Temporal Blockchain
+# 🌟 LUXBIN — Temporal Blockchain
 
-        <div align="center">
+**Revolutionary blockchain powered by time-based cryptography and photonic encoding**
 
-        **Revolutionary blockchain powered by time-based cryptography and 
-    photonic encoding**
+[![Status](https://img.shields.io/badge/Status-Development%20Testnet-00D4AA?style=for-the-badge&logo=blockchaindotcom&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain) [![Substrate](https://img.shields.io/badge/Built%20on-Substrate-5942E9?style=for-the-badge&logo=substrate&logoColor=white)](https://substrate.io) [![Energy](https://img.shields.io/badge/Energy-99%25%20Less%20Than%20Bitcoin-22C55E?style=for-the-badge&logo=leaf&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain) [![Quantum Safe](https://img.shields.io/badge/Quantum-Safe%20Cryptography-7C3AED?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain)
 
-        [![Status](https://img.shields.io/badge/Status-Development%20Testnet-00D
-    4AA?style=for-the-badge&logo=blockchaindotcom&logoColor=white)](https://gith
-    ub.com/mermaidnicheboutique-code/luxbin-chain)
-        [![Substrate](https://img.shields.io/badge/Built%20on-Substrate-5942E9?s
-    tyle=for-the-badge&logo=substrate&logoColor=white)](https://substrate.io)
-        [![Energy](https://img.shields.io/badge/Energy-99%25%20Less%20Than%20Bit
-    coin-22C55E?style=for-the-badge&logo=leaf&logoColor=white)](https://github.c
-    om/mermaidnicheboutique-code/luxbin-chain)
-        [![Quantum Safe](https://img.shields.io/badge/Quantum-Safe%20Cryptograph
-    y-7C3AED?style=for-the-badge&logo=shield&logoColor=white)](https://github.co
-    m/mermaidnicheboutique-code/luxbin-chain)
+---
 
-        ---
+## 🎬 Experience LUXBIN
 
-        ## 🎬 Experience LUXBIN
+<div align="center">
 
-        <div align="center">
+<!-- Hero video: poster used for fallback and visual polish -->
+<video controls width="100%" height="400" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-hero.png" preload="none">
+  <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4" type="video/mp4">
+  Your browser does not support HTML5 video. Click to open: https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4
+</video>
 
-        <video width="100%" height="400" controls poster="https://img.shields.io
-    /badge/LUXBIN-Temporal%20Blockchain-667eea?style=for-the-badge">
-          <source src="https://raw.githubusercontent.com/mermaidnicheboutique-co
-    de/luxbin-chain/main/bg-video-1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+*Immerse yourself in the future of sustainable blockchain technology*
 
-        *Immerse yourself in the future of sustainable blockchain technology*
+</div>
 
-        </div>
+> Note: GitHub's README rendering may not always play embedded mp4s consistently in every browser. If you experience playback issues, consider (a) linking the MP4 directly, (b) using a short animated GIF as a thumbnail that links to the MP4, or (c) hosting videos on a CDN/YouTube and embedding or linking that instead.
 
-        ---
+---
 
-        ## 🌟 Brand Showcase Videos
+## 🌟 Brand Showcase Videos
 
-        <div align="center">
+A compact grid of short demo videos. Each opens inline (if supported) or links to the file.
 
-        ### 🔄 System Architecture Overview
-        <video width="48%" controls style="margin: 10px;">
-          <source src="https://raw.githubusercontent.com/mermaidnicheboutique-co
-    de/luxbin-chain/main/bg-video-2.mp4" type="video/mp4">
-        </video>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>🔄 System Architecture Overview</strong><br>
+      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-2.png">
+        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-2.mp4" type="video/mp4">
+      </video>
+    </td>
+    <td align="center" width="50%">
+      <strong>⚡ Lightning Consensus Demonstration</strong><br>
+      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-3.png">
+        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-3.mp4" type="video/mp4">
+      </video>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>🤖 AI Compute Marketplace</strong><br>
+      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-4.png">
+        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-4.mp4" type="video/mp4">
+      </video>
+    </td>
+    <td align="center">
+      <strong>🌈 Photonic Encoding Technology</strong><br>
+      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-5.png">
+        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-5.mp4" type="video/mp4">
+      </video>
+    </td>
+  </tr>
+</table>
 
-        ### ⚡ Lightning Consensus Demonstration
-        <video width="48%" controls style="margin: 10px;">
-          <source src="https://raw.githubusercontent.com/mermaidnicheboutique-co
-    de/luxbin-chain/main/bg-video-3.mp4" type="video/mp4">
-        </video>
+---
 
-        ### 🤖 AI Compute Marketplace
-        <video width="48%" controls style="margin: 10px;">
-          <source src="https://raw.githubusercontent.com/mermaidnicheboutique-co
-    de/luxbin-chain/main/bg-video-4.mp4" type="video/mp4">
-        </video>
+## 🚀 Live Interactive Demo
 
-        ### 🌈 Photonic Encoding Technology
-        <video width="48%" controls style="margin: 10px;">
-          <source src="https://raw.githubusercontent.com/mermaidnicheboutique-co
-    de/luxbin-chain/main/bg-video-5.mp4" type="video/mp4">
-        </video>
+<div align="center">
 
-        </div>
+### 🌐 Launch the Blockchain Explorer
+[🖱️ Open luxbin-ui.html](luxbin-ui.html)
 
-        ---
+</div>
 
-        ## 🚀 Live Interactive Demo
+### 📊 Network Status (example)
+- **Chain Status**: Development Testnet Running  
+- **Blocks Produced**: 1,700+  
+- **Target TPS**: 10,000+  
+- **Energy Efficiency**: <0.01 Wh / tx  
+- **Consensus**: Lightning Diamond Device (LDD)  
+- **RPC Endpoint**: ws://127.0.0.1:9944
 
-        <div align="center">
+---
 
-        ### 🌐 **Launch the Blockchain Explorer**
-        **[🖱️ Open luxbin-ui.html](luxbin-ui.html)**
+## ⚡ Quick Start
 
-        > **Modern glassmorphism interface** with real-time blockchain
-    visualization
+### Option 1 — Visual Web Interface (recommended)
+```bash
+# Open the local explorer UI
+open luxbin-ui.html
+```
 
-        ### 📊 **Network Status Dashboard**
-        - **🟢 Chain Status**: Development Testnet Running
-        - **⛓️ Blocks Produced**: 1,700+
-        - **⚡ Target TPS**: 10,000+
-        - **🌱 Energy Efficiency**: <0.01 Wh per transaction
-        - **🔒 Consensus**: Lightning Diamond Device (LDD)
-        - **🌐 RPC Endpoint**: ws://127.0.0.1:9944
+### Option 2 — Command Line
+```bash
+cd luxbin-chain
+node interact.js
+```
+Commands:
+- `1` Generate Temporal Key
+- `2` Create Photonic Color
+- `3` Check Latest Block
+- `4` Check Balance
 
-        </div>
+### Option 3 — Local Development Node
+```bash
+# Build
+cargo build --release --package solochain-template-node
 
-        ---
+# Start dev node
+./target/release/solochain-template-node --dev --tmp
+```
 
-        ## ⚡ Quick Start Guide
+---
 
-        ### 🎯 **Option 1: Visual Web Interface** (Recommended)
-        ```bash
-        # Launch the sleek blockchain explorer
-        open luxbin-ui.html
+## 🏗️ System Architecture
 
-        # Features include:
-        # 🎨 Interactive photonic address creation
-        # ⏰ Real-time temporal key generation
-        # 📊 Live block and transaction monitoring
-        # 🔍 Advanced blockchain exploration tools
+- Temporal Cryptography Engine
+  - Time-based key derivation
+  - HMAC-SHA256 combination layers
+- Decentralized AI Compute Marketplace
+  - Temporal escrow smart contracts
+  - Renewable energy incentives
+- Substrate Runtime (Polkadot compatible)
+  - Custom FRAME pallets
+  - Cross-chain interoperability
+- Photonic Transaction Layer
+  - HSL visual address system
+  - Color-coded transaction validation
 
-    ### 💻 Option 2: Command Line Interface
+---
 
-        cd luxbin-chain
-        node interact.js
+## ✨ Key Features
 
-    Interactive Commands:
+| Feature | Status | Description |
+|---|---:|---|
+| Temporal Cryptography | ✅ Fully Implemented | Keys derived from time windows for forward security |
+| Photonic Encoding | ✅ Fully Implemented | Transactions encoded with HSL visual layers |
+| LDD Consensus | ✅ Fully Implemented | Low-latency time-based validation (<2s finality) |
+| AI Compute Network | ✅ Fully Implemented | Decentralized marketplace for compute |
+| Green Incentives | ✅ Fully Implemented | Rewards for renewable energy usage |
+| Quantum Resistance | ⚠️ Planning | Research & roadmap for post-quantum algorithms |
 
-        * `1` 🔑 **Generate Temporal Key** - Create time-based cryptographic
-    keys
-        * `2` 🌈 **Create Photonic Color** - Encode data as HSL wavelengths
-        * `3` 📊 **Check Latest Block** - View recent blockchain activity
-        * `4` 💰 **Check Balance** - Query account information
+---
 
-    ### 🖥️ Option 3: Run Local Development Node
+## 🔧 Contributing & Development
 
-        # Build the blockchain node
-        cargo build --release --package solochain-template-node
+1. Add clear docs and comments.
+2. Run the indexer and tests when adding code.
+3. Use the `arxiv-submission/` and `autonomous-ai/` folders for papers and AI components.
 
-        # Start development network
-        ./target/release/solochain-template-node --dev --tmp
+---
 
-    ----------------------------------------------------------------------------
-    ---
+## Troubleshooting & Video Tips
 
-    ## 🏗️ System Architecture
+- If embedded videos do not play in README: try opening the raw MP4 link directly.
+- For consistent playback across browsers and GitHub, consider:
+  - Converting short clips to GIFs for inline visuals.
+  - Hosting the full MP4s on a CDN, S3, or YouTube and linking/embedding thumbnails.
+  - Creating release assets and linking to them.
 
-        🌟 LUXBIN TEMPORAL BLOCKCHAIN ECOSYSTEM
-        ├── 🔐 Temporal Cryptography Engine
-        │   ├── Advanced time-based key derivation
-        │   ├── HMAC-SHA256 cryptographic combination
-        │   └── Multi-layer security architecture
-        ├── 🤖 Decentralized AI Compute Marketplace
-        │   ├── Temporal escrow smart contracts
-        │   ├── Renewable energy incentive system
-        │   └── Automated resource distribution
-        ├── 🌉 Substrate Runtime (Polkadot Compatible)
-        │   ├── Custom FRAME pallets
-        │   ├── Cross-chain interoperability
-        │   ├── Production-grade infrastructure
-        └── 🎨 Photonic Transaction Layer
-            ├── Visual HSL address system
-            ├── Color-coded transaction validation
-            ├── Intuitive human interface
+---
 
-    ----------------------------------------------------------------------------
-    ---
-
-    ## ✨ Revolutionary Innovation Features
-
-    <div align="center">
-
-    ┌──────────────────────────┬───────────────────────────────────────────────┬
-    ───────────────────────┐
-    │ Breakthrough Technology  │ Description                                   │
-     Implementation Status │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ ⏰ Temporal Cryptography │ Cryptographic keys generated from time itself │
-     ✅ Fully Implemented  │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ 🌈 Photonic Encoding     │ Transactions encoded as light wavelengths     │
-     ✅ Fully Implemented  │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ ⚡ LDD Consensus         │ Time-based validation with <2s finality       │
-     ✅ Fully Implemented  │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ 🤖 AI Compute Network    │ Decentralized AI resource marketplace         │
-     ✅ Fully Implemented  │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ 🌱 Green Incentives      │ Renewable energy node reward system           │
-     ✅ Fully Implemented  │
-    ├──────────────────────────┼───────────────────────────────────────────────┼
-    ───────────────────────┤
-    │ 🔒 Quantum Resistance    │ Future                                        │
-                           │
-    └──────────────────────────┴───────────────────────────────────────────────┴
-    ───────────────────────
-
-
-
-
+If you'd like, commit message: "chore(readme): improve layout and video embeds — add posters and guidance"
