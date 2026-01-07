@@ -1,0 +1,26 @@
+[profile.default]
+src = "contracts/src"
+out = "contracts/out"
+libs = ["contracts/lib"]
+
+remappings = [
+    "forge-std/=contracts/lib/forge-std/src/",
+    "@openzeppelin/=contracts/lib/openzeppelin-contracts/",
+]
+
+[fuzz]
+runs = 256
+max_test_rejects = 65536
+
+[invariant]
+runs = 128
+depth = 15
+fail_on_revert = false
+
+[rpc_endpoints]
+mainnet = "${MAINNET_RPC_URL}"
+sepolia = "${SEPOLIA_RPC_URL}"
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
