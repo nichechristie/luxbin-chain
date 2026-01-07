@@ -8,31 +8,32 @@
 
 ---
 
-## 🎬 Experience LUXBIN
+## 🎯 Key Innovations
 
 <div align="center">
 
-[![Watch LUXBIN Demo](https://img.shields.io/badge/Watch-LUXBIN%20Demo-7C3AED?style=for-the-badge&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-1.mp4)
+**LUXBIN pioneers photonic blockchain technology for sustainable computing**
 
-*Click above to watch the immersive LUXBIN blockchain demonstration*
+🔄 **Time-Based Cryptography** | 🌈 **Photonic Data Encoding** | 💎 **Quantum-Ready Architecture**
 
 </div>
 
-> **Video Note**: GitHub doesn't support direct video streaming in READMEs. The badge above links to the raw video file for optimal viewing experience.
-
 ---
 
-## 🌟 Brand Showcase Videos
+## 🚀 Getting Started
 
-Watch our demonstration videos showcasing LUXBIN's key features:
+### Quick Setup
+```bash
+git clone https://github.com/mermaidnicheboutique-code/luxbin-chain.git
+cd luxbin-chain
+forge install
+npm install
+```
 
-| Video | Description | Watch |
-|-------|-------------|-------|
-| 🔄 **System Architecture Overview** | Explore LUXBIN's photonic blockchain architecture | [![Watch](https://img.shields.io/badge/Watch-Video-22C55E?style=flat&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-2.mp4) |
-| ⚡ **Lightning Consensus Demonstration** | See our ultra-fast, energy-efficient consensus in action | [![Watch](https://img.shields.io/badge/Watch-Video-00D4AA?style=flat&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-3.mp4) |
-| 🤖 **AI Compute Marketplace** | Discover decentralized AI compute trading | [![Watch](https://img.shields.io/badge/Watch-Video-FF6B35?style=flat&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-4.mp4) |
-| 💎 **Quantum Integration Preview** | Preview diamond NV center quantum storage | [![Watch](https://img.shields.io/badge/Watch-Video-7C3AED?style=flat&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-5.mp4) |
-| 🌈 **Photonic Encoding Technology** | Experience LUXBIN's light-based data encoding | [![Watch](https://img.shields.io/badge/Watch-Video-5942E9?style=flat&logo=video&logoColor=white)](https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/bg-video-6.mp4) |
+### Key Commands
+- `forge build` - Compile smart contracts
+- `forge test` - Run test suite
+- `forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast` - Deploy contracts
 
 ---
 
