@@ -12,54 +12,27 @@
 
 <div align="center">
 
-<!-- Hero video: poster used for fallback and visual polish -->
-<video controls width="100%" height="400" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-hero.png" preload="none">
-  <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4" type="video/mp4">
-  Your browser does not support HTML5 video. Click to open: https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4
-</video>
+[![Watch LUXBIN Demo](https://img.shields.io/badge/Watch-LUXBIN%20Demo-7C3AED?style=for-the-badge&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-1.mp4)
 
-*Immerse yourself in the future of sustainable blockchain technology*
+*Click above to watch the immersive LUXBIN blockchain demonstration*
 
 </div>
 
-> Note: GitHub's README rendering may not always play embedded mp4s consistently in every browser. If you experience playback issues, consider (a) linking the MP4 directly, (b) using a short animated GIF as a thumbnail that links to the MP4, or (c) hosting videos on a CDN/YouTube and embedding or linking that instead.
+> **Video Note**: GitHub doesn't support direct video streaming in READMEs. The badge above links to the raw video file for optimal viewing experience.
 
 ---
 
 ## 🌟 Brand Showcase Videos
 
-A compact grid of short demo videos. Each opens inline (if supported) or links to the file.
+Watch our demonstration videos showcasing LUXBIN's key features:
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <strong>🔄 System Architecture Overview</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-2.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-2.mp4" type="video/mp4">
-      </video>
-    </td>
-    <td align="center" width="50%">
-      <strong>⚡ Lightning Consensus Demonstration</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-3.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-3.mp4" type="video/mp4">
-      </video>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>🤖 AI Compute Marketplace</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-4.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-4.mp4" type="video/mp4">
-      </video>
-    </td>
-    <td align="center">
-      <strong>🌈 Photonic Encoding Technology</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-5.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-5.mp4" type="video/mp4">
-      </video>
-    </td>
-  </tr>
-</table>
+| Video | Description | Watch |
+|-------|-------------|-------|
+| 🔄 **System Architecture Overview** | Explore LUXBIN's photonic blockchain architecture | [![Watch](https://img.shields.io/badge/Watch-Video-22C55E?style=flat&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-2.mp4) |
+| ⚡ **Lightning Consensus Demonstration** | See our ultra-fast, energy-efficient consensus in action | [![Watch](https://img.shields.io/badge/Watch-Video-00D4AA?style=flat&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-3.mp4) |
+| 🤖 **AI Compute Marketplace** | Discover decentralized AI compute trading | [![Watch](https://img.shields.io/badge/Watch-Video-FF6B35?style=flat&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-4.mp4) |
+| 💎 **Quantum Integration Preview** | Preview diamond NV center quantum storage | [![Watch](https://img.shields.io/badge/Watch-Video-7C3AED?style=flat&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-5.mp4) |
+| 🌈 **Photonic Encoding Technology** | Experience LUXBIN's light-based data encoding | [![Watch](https://img.shields.io/badge/Watch-Video-5942E9?style=flat&logo=video&logoColor=white)](https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/bg-video-6.mp4) |
 
 ---
 
