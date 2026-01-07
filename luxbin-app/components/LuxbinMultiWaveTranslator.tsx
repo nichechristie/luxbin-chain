@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-const LUXBIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:-()[]{}@#$%^&*+=_~`<>\"'|\\";
+type WaveMode = 'photonic' | 'acoustic' | 'radio' | 'superposition';
 
 interface WaveData {
   colors: string[];
@@ -11,31 +11,27 @@ interface WaveData {
   amplitudes: number[][];
 }
 
+const LUXBIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:-()[]{}@#$%^&*+=_~`<>\"'|\\";
+
 export function LuxbinMultiWaveTranslator() {
   const [inputText, setInputText] = useState('HELLO QUANTUM');
-  const [currentMode, setCurrentMode] = useState<'photonic' | 'acoustic' | 'radio' | 'superposition'>('photonic');
+  const [currentMode, setCurrentMode] = useState<WaveMode>('photonic');
   const [naturalLang, setNaturalLang] = useState('Your input text will appear here');
   const [luxbinDict, setLuxbinDict] = useState('LUXBIN characters will appear here');
   const [binaryCode, setBinaryCode] = useState('Binary representation will appear here');
-  const [colors, setColors] = useState<string[]>([]);
-  const [wavelengths, setWavelengths] = useState<string[]>([]);
-  const [frequencies, setFrequencies] = useState<string[]>([]);
-  const [amplitudes, setAmplitudes] = useState<number[][]>([]);
+  const [wavelengthInfo, setWavelengthInfo] = useState('');
+  const [frequencyInfo, setFrequencyInfo] = useState('');
   const [activeStep, setActiveStep] = useState<number | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [waveColors, setWaveColors] = useState<string[]>([]);
+  const [amplitudes, setAmplitudes] = useState<number[][]>([]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const animationRef = useRef<number | null>(null);
   const oscillatorsRef = useRef<OscillatorNode[]>([]);
-
-  // Initialize with example
-  useEffect(() => {
-    handleTranslate();
-  }, []);
+  const animationRef = useRef<number | null>(null);
 
   // HSL to RGB conversion
-  const hslToRgb = (h: number, s: number, l: number): [number, number, number] => {
+  const hslToRgb = useCallback((h: number, s: number, l: number): [number, number, number] => {
     h /= 360;
     s /= 100;
     l /= 100;
@@ -58,17 +54,17 @@ export function LuxbinMultiWaveTranslator() {
       b = hue2rgb(p, q, h - 1/3);
     }
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-  };
+  }, []);
 
-  // Text to binary
-  const textToBinary = (text: string): string => {
+  // Convert text to binary
+  const textToBinary = useCallback((text: string): string => {
     return text.split('').map(char => {
       return char.charCodeAt(0).toString(2).padStart(8, '0');
     }).join(' ');
-  };
+  }, []);
 
-  // Binary to LUXBIN
-  const binaryToLuxbin = (binary: string): string => {
+  // Convert binary to LUXBIN characters
+  const binaryToLuxbin = useCallback((binary: string): string => {
     const cleanBinary = binary.replace(/\s/g, '');
     let result = '';
     for (let i = 0; i < cleanBinary.length; i += 6) {
@@ -77,10 +73,10 @@ export function LuxbinMultiWaveTranslator() {
       result += LUXBIN_ALPHABET[index];
     }
     return result;
-  };
+  }, []);
 
-  // LUXBIN to waves
-  const luxbinToWaves = (luxbin: string): WaveData => {
+  // Convert LUXBIN to multi-wave encoding
+  const luxbinToWaves = useCallback((luxbin: string): WaveData => {
     const colors: string[] = [];
     const wavelengths: string[] = [];
     const frequencies: string[] = [];
@@ -117,17 +113,14 @@ export function LuxbinMultiWaveTranslator() {
         const freq3 = baseFreq * 1.5;
         frequencies.push(`${Math.round(freq1)}Hz | ${Math.round(freq2)}Hz | ${Math.round(freq3)}Hz`);
         amplitudes.push([0.4, 0.4, 0.4]);
-      } else {
-        frequencies.push('');
-        amplitudes.push([0.3]);
       }
     }
 
     return { colors, wavelengths, frequencies, amplitudes };
-  };
+  }, [currentMode, hslToRgb]);
 
   // Draw waves on canvas
-  const drawWaves = (colors: string[], amplitudes: number[][]) => {
+  const drawWaves = useCallback((colors: string[], amplitudes: number[][]) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -169,15 +162,19 @@ export function LuxbinMultiWaveTranslator() {
 
       ctx.stroke();
     });
-  };
+  }, [currentMode]);
 
   // Play audio
-  const playAudio = () => {
+  const playAudio = useCallback(() => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
 
     stopAudio();
+
+    const binary = textToBinary(inputText);
+    const luxbin = binaryToLuxbin(binary);
+    const { frequencies, amplitudes } = luxbinToWaves(luxbin);
 
     frequencies.forEach((freqStr, index) => {
       if (currentMode === 'superposition' && index === 0) {
@@ -185,25 +182,27 @@ export function LuxbinMultiWaveTranslator() {
         const freqs = [baseFreq, baseFreq * 1.25, baseFreq * 1.5];
 
         freqs.forEach((freq, i) => {
-          const oscillator = audioContextRef.current!.createOscillator();
-          const gainNode = audioContextRef.current!.createGain();
+          if (freq && freq > 0) {
+            const oscillator = audioContextRef.current!.createOscillator();
+            const gainNode = audioContextRef.current!.createGain();
 
-          oscillator.frequency.setValueAtTime(freq, audioContextRef.current!.currentTime);
-          oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(freq, audioContextRef.current!.currentTime);
+            oscillator.type = 'sine';
 
-          gainNode.gain.setValueAtTime(amplitudes[index][i] || 0.1, audioContextRef.current!.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current!.currentTime + 2);
+            gainNode.gain.setValueAtTime(amplitudes[index][i] || 0.1, audioContextRef.current!.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current!.currentTime + 2);
 
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContextRef.current!.destination);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContextRef.current!.destination);
 
-          oscillator.start();
-          oscillator.stop(audioContextRef.current!.currentTime + 2);
+            oscillator.start();
+            oscillator.stop(audioContextRef.current!.currentTime + 2);
 
-          oscillatorsRef.current.push(oscillator);
+            oscillatorsRef.current.push(oscillator);
+          }
         });
       } else {
-        const freq = parseFloat(freqStr.split('Hz')[0] || freqStr.split('MHz')[0]);
+        const freq = parseFloat(freqStr.split('Hz')[0]);
         if (freq && freq > 0) {
           const oscillator = audioContextRef.current!.createOscillator();
           const gainNode = audioContextRef.current!.createGain();
@@ -224,10 +223,10 @@ export function LuxbinMultiWaveTranslator() {
         }
       }
     });
-  };
+  }, []);
 
   // Stop audio
-  const stopAudio = () => {
+  const stopAudio = useCallback(() => {
     oscillatorsRef.current.forEach(osc => {
       try {
         osc.stop();
@@ -236,58 +235,72 @@ export function LuxbinMultiWaveTranslator() {
       }
     });
     oscillatorsRef.current = [];
-  };
+  }, []);
 
-  // Handle translate
-  const handleTranslate = () => {
-    if (!inputText.trim()) return;
+  // Translate function
+  const translate = useCallback(() => {
+    if (!inputText.trim()) {
+      alert('Please enter some text to translate!');
+      return;
+    }
 
     setActiveStep(null);
 
+    // Step 1: Natural Language
+    setNaturalLang(inputText);
+    setActiveStep(1);
+
     setTimeout(() => {
-      setNaturalLang(inputText);
-      setActiveStep(1);
+      // Step 2: Binary Code
+      const binary = textToBinary(inputText);
+      setBinaryCode(binary);
+      setActiveStep(2);
 
       setTimeout(() => {
-        const binary = textToBinary(inputText);
-        setBinaryCode(binary);
-        setActiveStep(2);
+        // Step 3: LUXBIN Dictionary
+        const luxbin = binaryToLuxbin(binary);
+        setLuxbinDict(luxbin);
+        setActiveStep(3);
 
         setTimeout(() => {
-          const luxbin = binaryToLuxbin(binary);
-          setLuxbinDict(luxbin);
-          setActiveStep(3);
+          // Step 4: Multi-Wave Encoding
+          const { colors, wavelengths, frequencies, amplitudes } = luxbinToWaves(luxbin);
+          setWaveColors(colors);
+          setAmplitudes(amplitudes);
+          setWavelengthInfo(`Wavelengths: ${wavelengths.slice(0, 8).join(', ')}${wavelengths.length > 8 ? '...' : ''}`);
 
-          setTimeout(() => {
-            const waveData = luxbinToWaves(luxbin);
-            setColors(waveData.colors);
-            setWavelengths(waveData.wavelengths);
-            setFrequencies(waveData.frequencies);
-            setAmplitudes(waveData.amplitudes);
-            setActiveStep(4);
+          if (frequencies.length > 0) {
+            setFrequencyInfo(`Frequencies: ${frequencies.slice(0, 3).join(', ')}${frequencies.length > 3 ? '...' : ''}`);
+          }
 
-            // Start wave animation
-            setIsAnimating(true);
-            const animate = () => {
-              drawWaves(waveData.colors, waveData.amplitudes);
-              animationRef.current = requestAnimationFrame(animate);
-            };
-            animate();
-          }, 1000);
+          setActiveStep(4);
+
+          // Start animation
+          if (animationRef.current) {
+            cancelAnimationFrame(animationRef.current);
+          }
+
+          const animate = () => {
+            drawWaves(colors, amplitudes);
+            animationRef.current = requestAnimationFrame(animate);
+          };
+          animate();
+
         }, 1000);
       }, 1000);
-    }, 500);
-  };
+    }, 1000);
+  }, [inputText, textToBinary, binaryToLuxbin, luxbinToWaves, drawWaves]);
 
   // Generate light show
-  const generateLightShow = () => {
+  const generateLightShow = useCallback(() => {
     if (!inputText.trim()) {
       alert('Please enter some text first!');
       return;
     }
 
-    const waveData = luxbinToWaves(luxbinDict);
-    setIsAnimating(true);
+    const binary = textToBinary(inputText);
+    const luxbin = binaryToLuxbin(binary);
+    const { colors, amplitudes } = luxbinToWaves(luxbin);
 
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -296,33 +309,28 @@ export function LuxbinMultiWaveTranslator() {
     let time = 0;
     const animate = () => {
       time += 0.02;
-      drawWaves(waveData.colors, waveData.amplitudes);
+      drawWaves(colors, amplitudes);
       animationRef.current = requestAnimationFrame(animate);
     };
     animate();
 
-    // Flash the step indicator
     setActiveStep(4);
-    setTimeout(() => setActiveStep(null), 200);
-    setTimeout(() => setActiveStep(4), 400);
 
-    // Auto-play audio if in audio mode
     if (currentMode !== 'photonic') {
       setTimeout(() => playAudio(), 500);
     }
-  };
+  }, [inputText, currentMode, textToBinary, binaryToLuxbin, luxbinToWaves, drawWaves, playAudio]);
 
   // Clear all
-  const clearAll = () => {
+  const clearAll = useCallback(() => {
     setInputText('');
     setNaturalLang('Your input text will appear here');
     setLuxbinDict('LUXBIN characters will appear here');
     setBinaryCode('Binary representation will appear here');
-    setColors([]);
-    setWavelengths([]);
-    setFrequencies([]);
-    setAmplitudes([]);
+    setWavelengthInfo('');
+    setFrequencyInfo('');
     setActiveStep(null);
+    setWaveColors([]);
 
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -338,35 +346,49 @@ export function LuxbinMultiWaveTranslator() {
     }
 
     stopAudio();
-    setIsAnimating(false);
-  };
+  }, [stopAudio]);
+
+  // Initialize
+  useEffect(() => {
+    translate();
+  }, []);
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      stopAudio();
+    };
+  }, [stopAudio]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-orange-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl">
+        <h1 className="text-center mb-4 bg-gradient-to-r from-orange-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent text-4xl font-bold">
           🌈🎵 LUXBIN Multi-Wave Translator
         </h1>
-        <p className="text-center text-xl opacity-90 mb-8">
+        <p className="text-center text-gray-300 mb-8 text-lg">
           Advanced photonic communication with acoustic superposition and multi-wavelength encoding
         </p>
 
-        <div className="mb-8">
-          <label className="block text-lg font-semibold mb-2">Enter Natural Language:</label>
+        <div className="mb-6">
+          <label className="block text-white font-semibold mb-2">Enter Natural Language:</label>
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            className="w-full p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 resize-none"
+            className="w-full p-4 bg-white/90 text-gray-800 rounded-xl border-0 text-lg resize-none focus:ring-2 focus:ring-purple-500"
             rows={4}
             placeholder="Type your message here... e.g., 'Hello Quantum World'"
           />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
           <button
             onClick={() => setCurrentMode('photonic')}
             className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              currentMode === 'photonic' ? 'bg-cyan-500 text-black' : 'bg-white/20 hover:bg-white/30'
+              currentMode === 'photonic' ? 'bg-cyan-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             🌈 Photonic Only
@@ -374,7 +396,7 @@ export function LuxbinMultiWaveTranslator() {
           <button
             onClick={() => setCurrentMode('acoustic')}
             className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              currentMode === 'acoustic' ? 'bg-green-500 text-black' : 'bg-white/20 hover:bg-white/30'
+              currentMode === 'acoustic' ? 'bg-cyan-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             🎵 Acoustic Waves
@@ -382,7 +404,7 @@ export function LuxbinMultiWaveTranslator() {
           <button
             onClick={() => setCurrentMode('radio')}
             className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              currentMode === 'radio' ? 'bg-blue-500 text-black' : 'bg-white/20 hover:bg-white/30'
+              currentMode === 'radio' ? 'bg-cyan-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             📻 Radio Waves
@@ -390,95 +412,75 @@ export function LuxbinMultiWaveTranslator() {
           <button
             onClick={() => setCurrentMode('superposition')}
             className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              currentMode === 'superposition' ? 'bg-yellow-500 text-black' : 'bg-white/20 hover:bg-white/30'
+              currentMode === 'superposition' ? 'bg-yellow-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             ⚛️ Quantum Superposition
           </button>
         </div>
 
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           <button
-            onClick={handleTranslate}
-            className="px-8 py-4 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full font-bold text-lg hover:scale-105 transition-transform"
+            onClick={translate}
+            className="bg-gradient-to-r from-orange-500 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform"
           >
             🔄 Translate to LUXBIN
           </button>
           <button
             onClick={generateLightShow}
-            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full font-bold text-lg hover:scale-105 transition-transform"
+            className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform"
           >
             ✨ Generate Light Show
           </button>
           <button
             onClick={clearAll}
-            className="px-8 py-4 bg-red-500/80 hover:bg-red-500 rounded-full font-bold text-lg transition-colors"
+            className="bg-red-500/80 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-500 transition-colors"
           >
             🗑️ Clear
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className={`p-6 rounded-lg bg-white/10 backdrop-blur-sm border-2 transition-all ${
-            activeStep === 1 ? 'border-cyan-400 bg-white/20' : 'border-white/20'
-          }`}>
-            <h3 className="text-xl font-bold mb-4 text-orange-400">📝 Natural Language</h3>
-            <div className="bg-black/50 p-4 rounded font-mono text-sm max-h-32 overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className={`p-6 rounded-xl transition-all ${activeStep === 1 ? 'bg-cyan-500/20 border-2 border-cyan-400' : 'bg-white/10'}`}>
+            <h3 className="text-xl font-bold text-orange-400 mb-4">📝 Natural Language</h3>
+            <div className="bg-white/90 text-gray-800 p-4 rounded-lg text-sm font-mono min-h-[100px] overflow-y-auto">
               {naturalLang}
             </div>
           </div>
 
-          <div className={`p-6 rounded-lg bg-white/10 backdrop-blur-sm border-2 transition-all ${
-            activeStep === 2 ? 'border-cyan-400 bg-white/20' : 'border-white/20'
-          }`}>
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📚 LUXBIN Dictionary</h3>
-            <div className="bg-black/50 p-4 rounded font-mono text-sm max-h-32 overflow-y-auto">
+          <div className={`p-6 rounded-xl transition-all ${activeStep === 2 ? 'bg-cyan-500/20 border-2 border-cyan-400' : 'bg-white/10'}`}>
+            <h3 className="text-xl font-bold text-orange-400 mb-4">📚 LUXBIN Dictionary</h3>
+            <div className="bg-white/90 text-gray-800 p-4 rounded-lg text-sm font-mono min-h-[100px] overflow-y-auto">
               {luxbinDict}
             </div>
           </div>
 
-          <div className={`p-6 rounded-lg bg-white/10 backdrop-blur-sm border-2 transition-all ${
-            activeStep === 3 ? 'border-cyan-400 bg-white/20' : 'border-white/20'
-          }`}>
-            <h3 className="text-xl font-bold mb-4 text-green-400">🔢 Binary Code</h3>
-            <div className="bg-black/50 p-4 rounded font-mono text-xs max-h-32 overflow-y-auto">
+          <div className={`p-6 rounded-xl transition-all ${activeStep === 3 ? 'bg-cyan-500/20 border-2 border-cyan-400' : 'bg-white/10'}`}>
+            <h3 className="text-xl font-bold text-orange-400 mb-4">🔢 Binary Code</h3>
+            <div className="bg-white/90 text-gray-800 p-4 rounded-lg text-sm font-mono min-h-[100px] overflow-y-auto whitespace-pre-wrap break-all">
               {binaryCode}
             </div>
           </div>
 
-          <div className={`p-6 rounded-lg bg-white/10 backdrop-blur-sm border-2 transition-all ${
-            activeStep === 4 ? 'border-cyan-400 bg-white/20' : 'border-white/20'
-          }`}>
-            <h3 className="text-xl font-bold mb-4 text-cyan-400">🌈 Multi-Wave Encoding</h3>
-            <div className="flex flex-wrap gap-2 mb-4 max-h-20 overflow-y-auto">
-              {colors.map((color, i) => (
+          <div className={`p-6 rounded-xl transition-all ${activeStep === 4 ? 'bg-cyan-500/20 border-2 border-cyan-400' : 'bg-white/10'}`}>
+            <h3 className="text-xl font-bold text-orange-400 mb-4">🌈 Multi-Wave Encoding</h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {waveColors.map((color, index) => (
                 <div
-                  key={i}
-                  className="w-6 h-6 rounded border border-white/30"
+                  key={index}
+                  className="w-8 h-8 rounded-lg border-2 border-white/30 hover:scale-110 transition-transform"
                   style={{ backgroundColor: color }}
                 />
               ))}
             </div>
-            <div className="text-xs opacity-80 mb-2">
-              Wavelengths: {wavelengths.slice(0, 5).join(', ')}{wavelengths.length > 5 ? '...' : ''}
-            </div>
-            {frequencies.length > 0 && (
-              <div className="text-xs opacity-80">
-                Frequencies: {frequencies.slice(0, 2).join(', ')}{frequencies.length > 2 ? '...' : ''}
-              </div>
-            )}
+            <div className="text-xs text-gray-300 mb-2">{wavelengthInfo}</div>
+            <div className="text-xs text-gray-300">{frequencyInfo}</div>
             {(currentMode === 'acoustic' || currentMode === 'radio' || currentMode === 'superposition') && (
               <div className="flex gap-2 mt-4">
-                <button
-                  onClick={playAudio}
-                  className="px-3 py-1 bg-green-500/80 hover:bg-green-500 rounded text-sm transition-colors"
-                >
-                  ▶️ Play
+                <button onClick={playAudio} className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">
+                  ▶️ Play Audio
                 </button>
-                <button
-                  onClick={stopAudio}
-                  className="px-3 py-1 bg-red-500/80 hover:bg-red-500 rounded text-sm transition-colors"
-                >
+                <button onClick={stopAudio} className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600">
                   ⏹️ Stop
                 </button>
               </div>
@@ -486,26 +488,27 @@ export function LuxbinMultiWaveTranslator() {
           </div>
         </div>
 
-        <div className="bg-black/50 p-6 rounded-lg backdrop-blur-sm border border-white/20 mb-8">
-          <h3 className="text-2xl font-bold mb-4 text-center">🌊 Wave Visualization</h3>
+        <div className="bg-black/50 rounded-xl p-6 mb-6">
           <canvas
             ref={canvasRef}
             width={800}
             height={200}
-            className="w-full bg-gradient-to-b from-gray-900 to-black rounded border border-white/20"
+            className="w-full h-48 bg-gradient-to-b from-gray-900 to-black rounded-lg"
           />
-          {currentMode === 'superposition' && (
-            <div className="mt-4 p-4 bg-yellow-500/20 rounded border border-yellow-500/50">
-              <h4 className="text-yellow-400 font-bold">⚛️ Quantum Superposition Active</h4>
-              <p className="text-sm opacity-90">
-                Three wavelengths with matched amplitudes create quantum-like interference patterns for enhanced data density and computer communication.
-              </p>
-            </div>
-          )}
         </div>
 
-        <div className="text-center opacity-70">
-          <p>Multi-modal communication: Photonic + Acoustic + Radio waves with quantum superposition | Powered by LUXBIN Light Language</p>
+        {currentMode === 'superposition' && (
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 mb-6">
+            <h4 className="text-yellow-400 font-bold mb-2">⚛️ Quantum Superposition Analysis</h4>
+            <p className="text-gray-300">
+              Three wavelengths combined with matched amplitudes create quantum-like interference patterns for enhanced data density.
+              The harmonic relationships (fundamental + perfect fifth + perfect octave) generate complex waveforms that can encode more information.
+            </p>
+          </div>
+        )}
+
+        <div className="text-center text-gray-400 text-sm">
+          <p>Multi-modal communication: Photonic + Acoustic + Radio waves with quantum superposition | Powered by <a href="https://github.com/mermaidnicheboutique-code/luxbin-light-language" className="text-cyan-400 hover:underline">LUXBIN Light Language</a></p>
         </div>
       </div>
     </div>
