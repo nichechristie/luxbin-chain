@@ -3,805 +3,595 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUXBIN - Quantum-Classical Hybrid Cryptography</title>
-    <meta name="description" content="LUXBIN quantum cryptography research">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <title>LUXBIN Multi-Wave Translator</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            line-height: 1.6;
-            color: #ffffff;
-            overflow-x: hidden;
-            background: #0a0a0f;
-        }
-
-        /* Video Background */
-        #bg-video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            z-index: -3;
-            object-fit: cover;
-        }
-
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 50%, rgba(240, 147, 251, 0.15) 100%);
-            backdrop-filter: blur(0px);
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
-            25% { transform: translateY(-100px) translateX(100px) rotate(90deg); }
-            50% { transform: translateY(-50px) translateX(-100px) rotate(180deg); }
-            75% { transform: translateY(-150px) translateX(50px) rotate(270deg); }
-        }
-
-        .container {
-            max-width: 1200px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Glassmorphism Header */
-        header {
-            background: transparent;
-            backdrop-filter: none;
-            border: none;
-            padding: 3rem;
-            border-radius: 30px;
-            margin: 2rem 0 3rem 0;
-            box-shadow: none;
-            animation: fadeInDown 1s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-family: 'Cinzel', Georgia, serif;
-            font-size: 4rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #a8b3ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 3px;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
-            to { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.6)); }
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 300;
-            margin-bottom: 1rem;
-        }
-
-        .author {
-            text-align: center;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-        }
-
-        /* Glassmorphism Sections */
-        section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            margin-bottom: 2rem;
-            border-radius: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            animation: fadeInUp 0.8s ease;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h2 {
-            font-family: 'Cinzel', Georgia, serif;
-            color: #ffffff;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
-        p {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        /* Modern Buttons */
-        .download-btn {
-            display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 14px 28px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            margin: 10px 10px 10px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FF6B35, #7C3AED, #00D4AA, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .input-section {
+            margin: 20px 0;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            background: linear-gradient(45deg, #FF6B35, #7C3AED);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px 5px;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .wave-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .wave-toggle button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #00D4AA;
+        }
+        .wave-toggle button.active {
+            background: #00D4AA;
+            color: #333;
+        }
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .step.active {
+            border-color: #00D4AA;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #FF6B35;
+        }
+        .output {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .wave-visualization {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 200px;
             position: relative;
             overflow: hidden;
         }
-
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .wave-canvas {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(to bottom, #000011, #000033);
         }
-
-        .download-btn:hover::before {
-            left: 100%;
+        .color-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+            max-height: 150px;
+            overflow-y: auto;
         }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            transition: transform 0.2s;
         }
-
-        .github-btn {
-            background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
-            box-shadow: 0 4px 15px rgba(36, 41, 46, 0.4);
+        .color-box:hover {
+            transform: scale(1.2);
         }
-
-        .github-btn:hover {
-            box-shadow: 0 6px 25px rgba(36, 41, 46, 0.6);
-        }
-
-        .colab-btn {
-            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
-            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
-        }
-
-        .colab-btn:hover {
-            box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6);
-        }
-
-        /* Feature Cards */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .feature {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .feature:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .feature h3 {
-            color: #ffffff;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .feature p {
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 1rem;
-        }
-
-        /* Animated Results */
-        .results {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .result {
+        .wavelength, .frequency {
+            font-size: 12px;
             text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            margin-top: 5px;
+            opacity: 0.8;
         }
-
-        .result:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: scale(1.05);
+        .superposition-info {
+            background: rgba(255, 212, 170, 0.2);
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
         }
-
-        .metric {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            animation: countUp 2s ease;
+        .superposition-info h4 {
+            color: #FFD700;
+            margin-top: 0;
         }
-
-        .result p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        footer {
+        .footer {
             text-align: center;
-            padding: 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            margin-top: 3rem;
+            margin-top: 30px;
+            opacity: 0.7;
         }
-
-        footer p {
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0.5rem 0;
-        }
-
-        footer a {
-            color: #667eea;
+        .footer a {
+            color: #00D4AA;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
-
-        footer a:hover {
-            color: #764ba2;
+        .footer a:hover {
+            text-decoration: underline;
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            h2 {
-                font-size: 2rem;
-            }
-            section {
-                padding: 2rem;
-            }
-            .features, .results {
-                grid-template-columns: 1fr;
-            }
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
         }
-
-        /* Scroll Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease;
+        .audio-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #FFD700;
         }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .audio-controls button.active {
+            background: #FFD700;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <!-- Video Background -->
-    <video id="bg-video" autoplay muted loop playsinline>
-        <source src="bg-video-1.mp4" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
-
-    <div class="particles"></div>
-
     <div class="container">
-        <header>
-            <h1>LUXBIN</h1>
-            <p class="subtitle">The Quantum-Secured Blockchain Token</p>
-            <p class="author">Powering the Next Generation of Cryptographic Security<br>
-            <em>Base Network • Symbol: LUX</em></p>
-        </header>
+        <h1>🌈🎵 LUXBIN Multi-Wave Translator</h1>
+        <p class="subtitle">Advanced photonic communication with acoustic superposition and multi-wavelength encoding</p>
 
-        <section id="overview">
-            <h2>What is LUXBIN?</h2>
-            <p>LUXBIN (LUX) is a revolutionary blockchain token that combines quantum cryptography, physics-based consensus, and biological security patterns to create the most advanced distributed ledger security system ever developed.</p>
-            <p>Unlike traditional tokens that rely solely on computational power, LUXBIN leverages quantum principles, acoustic physics, and immune system biology to secure transactions and validate blocks - making it resistant to both classical and quantum computing attacks.</p>
-        </section>
+        <div class="input-section">
+            <label for="input-text"><strong>Enter Natural Language:</strong></label>
+            <textarea id="input-text" placeholder="Type your message here... e.g., 'Hello Quantum World'"></textarea>
+        </div>
 
-        <section id="token-utility">
-            <h2>How LUXBIN Secures the Blockchain</h2>
-            <div class="features">
-                <div class="feature">
-                    <h3>⚡ LDD Consensus Validation</h3>
-                    <p>Token holders participate in Lightning Diamond Device consensus - a physics-inspired proof mechanism that scales to 50,000+ validators while maintaining quantum-resistant security.</p>
-                </div>
-                <div class="feature">
-                    <h3>🔐 Trinity Cryptography Staking</h3>
-                    <p>Stake LUX tokens to generate hardware-bound cryptographic keys combining device physics, acoustic environments, and temporal constraints for 512-bit security strength.</p>
-                </div>
-                <div class="feature">
-                    <h3>🦠 Immune System Defense</h3>
-                    <p>LUX powers the biological immune framework - token holders deploy Detector, Defender, Memory, and Regulatory cells as NFTs that autonomously protect the network from attacks.</p>
-                </div>
-                <div class="feature">
-                    <h3>🔊 Acoustic Shielding Network</h3>
-                    <p>Use LUX to activate piezoelectric wave interference shields that stabilize quantum operations and prevent environmental noise attacks on quantum nodes.</p>
+        <div class="wave-toggle">
+            <button onclick="setWaveMode('photonic')" class="active" id="photonic-btn">🌈 Photonic Only</button>
+            <button onclick="setWaveMode('acoustic')" id="acoustic-btn">🎵 Acoustic Waves</button>
+            <button onclick="setWaveMode('radio')" id="radio-btn">📻 Radio Waves</button>
+            <button onclick="setWaveMode('superposition')" id="superposition-btn">⚛️ Quantum Superposition</button>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="translate()">🔄 Translate to LUXBIN</button>
+            <button onclick="clearAll()">🗑️ Clear</button>
+        </div>
+
+        <div class="process-flow">
+            <div class="step" id="step1">
+                <h3>📝 Natural Language</h3>
+                <div class="output" id="natural-lang">Your input text will appear here</div>
+            </div>
+            <div class="step" id="step2">
+                <h3>📚 LUXBIN Dictionary</h3>
+                <div class="output" id="luxbin-dict">LUXBIN characters will appear here</div>
+            </div>
+            <div class="step" id="step3">
+                <h3>🔢 Binary Code</h3>
+                <div class="output" id="binary-code">Binary representation will appear here</div>
+            </div>
+            <div class="step" id="step4">
+                <h3>🌈 Multi-Wave Encoding</h3>
+                <div id="color-display" class="color-display"></div>
+                <div id="wavelength-info" class="wavelength"></div>
+                <div id="frequency-info" class="frequency"></div>
+                <div class="audio-controls" id="audio-controls" style="display: none;">
+                    <button onclick="playAudio()">▶️ Play Audio</button>
+                    <button onclick="stopAudio()">⏹️ Stop</button>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="tokenomics">
-            <h2>Token Metrics</h2>
-            <div class="results">
-                <div class="result">
-                    <div class="metric">512-bit</div>
-                    <p>Security Strength</p>
-                </div>
-                <div class="result">
-                    <div class="metric">50,000+</div>
-                    <p>Max Validators</p>
-                </div>
-                <div class="result">
-                    <div class="metric">10.2x</div>
-                    <p>GPU Acceleration</p>
-                </div>
-                <div class="result">
-                    <div class="metric">Quantum</div>
-                    <p>Attack Resistant</p>
-                </div>
-            </div>
-            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                <p><strong>Contract Address (Base):</strong></p>
-                <p style="font-family: monospace; font-size: 0.9rem; word-break: break-all;">0x66b4627B4Dd73228D24f24E844B6094091875169</p>
-                <p style="margin-top: 1rem;"><strong>Network:</strong> Base Mainnet</p>
-                <p><strong>Symbol:</strong> LUX</p>
-                <p><strong>Type:</strong> ERC-20 Utility Token</p>
-            </div>
-        </section>
+        <div class="wave-visualization">
+            <canvas id="wave-canvas" class="wave-canvas"></canvas>
+        </div>
 
-        <section id="buy-luxbin">
-            <h2>💎 Buy LUXBIN Tokens</h2>
-            <p>Connect your wallet and purchase LUXBIN tokens on Base network</p>
+        <div class="superposition-info" id="superposition-info" style="display: none;">
+            <h4>⚛️ Quantum Superposition Analysis</h4>
+            <p id="superposition-details">Three wavelengths combined with matched amplitudes create quantum-like interference patterns for enhanced data density.</p>
+        </div>
 
-            <div id="wallet-section">
-                <button id="connect-wallet" class="download-btn" style="font-size: 1.2rem; padding: 18px 36px;">
-                    🔗 Connect Wallet
-                </button>
-                <p id="wallet-status" style="margin-top: 1rem; font-size: 1.1rem;"></p>
-            </div>
-
-            <div id="purchase-section" style="display: none; margin-top: 2rem;">
-                <div class="features">
-                    <div class="feature" style="text-align: center;">
-                        <h3>💵 Buy with ETH</h3>
-                        <input type="number" id="eth-amount" placeholder="Amount in ETH" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1rem; margin: 1rem 0;">
-                        <button id="buy-with-eth" class="download-btn" style="width: 100%;">Buy with ETH</button>
-                    </div>
-
-                    <div class="feature" style="text-align: center;">
-                        <h3>💵 Buy with USDC</h3>
-                        <input type="number" id="usdc-amount" placeholder="Amount in USDC" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1rem; margin: 1rem 0;">
-                        <button id="buy-with-usdc" class="download-btn colab-btn" style="width: 100%;">Buy with USDC</button>
-                    </div>
-
-                    <div class="feature" style="text-align: center;">
-                        <h3>🔄 Swap on Uniswap</h3>
-                        <p style="margin: 1rem 0;">Trade LUXBIN on decentralized exchanges</p>
-                        <a href="https://app.uniswap.org/#/swap?outputCurrency=0x66b4627B4Dd73228D24f24E844B6094091875169&chain=base" target="_blank" class="download-btn github-btn" style="width: 100%; display: block; text-align: center;">Open Uniswap</a>
-                    </div>
-                </div>
-
-                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <p><strong>LUXBIN Token Address (Base):</strong></p>
-                    <p style="font-family: monospace; font-size: 0.9rem; word-break: break-all;">0x66b4627B4Dd73228D24f24E844B6094091875169</p>
-                    <p style="margin-top: 1rem; font-size: 0.95rem;">Network: Base • Symbol: LUX</p>
-                </div>
-            </div>
-        </section>
-
-<<<<<<< HEAD
-        <section id="experiments">
-            <h2>Interactive Experiments</h2>
-            <p>Explore the research through live computational notebooks:</p>
-            <a href="colab-gpu-test.ipynb" class="download-btn colab-btn">🧪 GPU Performance Tests</a>
-            <a href="colab-quantum-test.ipynb" class="download-btn colab-btn">🔬 Quantum Validation</a>
-            <a href="cirq-luxbin-integration.ipynb" class="download-btn colab-btn">⚛️ Cirq Quantum Integration</a>
-            <a href="colab-working-demo.ipynb" class="download-btn colab-btn">🚀 Complete Demo</a>
-        </section>
-            <a  href="colab-gpu-test.ipynb" class="download-btn colab-btn">🧪 GPU Performance Tests</a>
-            <a href="colab-quantum-test.ipynb" class="download-btn colab-btn">🔬 Quantum Validation</a>
-            <a href="colab-working-demo.ipynb" class="download-btn colab-btn">🚀 Complete Demo</a>
-            <a href="cirq-luxbin-integration.ipynb" class="download-btn colab-btn">⚛️ Cirq Quantum Simulation</a>
-
-
-        <section id="immune-system">
-            <h2>🦠 LUXBIN DIVINE - Immune Framework</h2>
-            <p><strong>NEW:</strong> Transform your blockchain into a living, self-defending organism with NFT-based immune cells!</p>
-=======
-        <section id="security-features">
-            <h2>Advanced Security Features</h2>
->>>>>>> ecffe8410065f1b782022bfd468b16266cdcd824
-            <div class="features">
-                <div class="feature">
-                    <h3>🦠 Biological Immune System</h3>
-                    <p>Deploy NFT-based immune cells (Detector, Defender, Memory, Regulatory) that autonomously patrol the network, neutralize threats, remember attacks, and prevent false positives through the Ahimsa Protocol.</p>
-                </div>
-                <div class="feature">
-                    <h3>⚛️ Quantum Circuit Integration</h3>
-                    <p>Built on Google's Cirq framework with quantum circuit simulations validating photonic encoding and temporal proofs on NISQ devices - ensuring quantum-safe cryptography.</p>
-                </div>
-                <div class="feature">
-                    <h3>🔊 Acoustic Quantum Shielding</h3>
-                    <p>Piezoelectric wave interference creates constructive/destructive patterns that stabilize quantum operations and shield against environmental decoherence.</p>
-                </div>
-                <div class="feature">
-                    <h3>⚡ GPU-Accelerated Validation</h3>
-                    <p>LDD consensus achieves 10.2x performance boost through GPU acceleration, enabling enterprise-scale validator networks without sacrificing decentralization.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="use-cases">
-            <h2>Token Use Cases</h2>
-            <p><strong>Validator Staking:</strong> Lock LUX tokens to become a network validator using LDD consensus, earning rewards for securing blocks.</p>
-            <p><strong>Immune Cell Deployment:</strong> Spend LUX to mint and deploy autonomous security NFTs that defend the network from attacks 24/7.</p>
-            <p><strong>Quantum Shield Activation:</strong> Pay LUX to activate acoustic shielding on quantum nodes, protecting them from environmental interference.</p>
-            <p><strong>Trinity Key Generation:</strong> Use LUX to generate hardware-bound cryptographic keys with 512-bit security for ultra-secure wallets and smart contracts.</p>
-            <p><strong>Governance:</strong> Vote on protocol upgrades, security parameters, and immune system policies using LUX governance tokens.</p>
-        </section>
-
-        <section id="research">
-            <h2>Scientific Foundation</h2>
-            <p>LUXBIN is built on peer-reviewed cryptographic research combining quantum physics, acoustic engineering, and computational biology. The system has been experimentally validated using cloud GPU infrastructure and quantum simulation frameworks.</p>
-            <p><strong>Research Documentation:</strong></p>
-            <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain/raw/master/luxbin-paper.pdf" class="download-btn" download>📄 Research Paper (PDF)</a>
-            <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/master/colab-gpu-test.ipynb" class="download-btn colab-btn" target="_blank">🧪 GPU Validation</a>
-            <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/master/cirq-luxbin-integration.ipynb" class="download-btn colab-btn" target="_blank">⚛️ Quantum Circuits</a>
-            <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" class="download-btn github-btn" target="_blank">🐙 View on GitHub</a>
-            <p style="margin-top: 1.5rem;"><strong>Key Research Areas:</strong> Quantum-Classical Hybrid Cryptography • Acoustic Wave Interference • LDD Consensus Mechanism • Trinity Cryptography • Biological Immune Frameworks • Cirq Quantum Integration</p>
-        </section>
-
-        <section id="about">
-            <h2>About LUXBIN</h2>
-            <p>LUXBIN represents the convergence of quantum computing, blockchain technology, and biological systems. The token powers a living, self-defending blockchain organism that adapts to threats, learns from attacks, and evolves continuously.</p>
-            <p>Created by <strong>Nichole Christie</strong>, independent researcher in quantum cryptography and distributed systems security.</p>
-            <p><strong>Status:</strong> Live on Base Network • Experimental validation complete • Open source • Community-driven development</p>
-        </section>
-
-        <footer>
-            <p>© 2024 Nichole Christie. This research is shared under Creative Commons Attribution License.</p>
-            <p>Contact: <a href="mailto:Nicholechristie555@gmail.com">Nicholechristie555@gmail.com</a></p>
-        </footer>
+        <div class="footer">
+            <p>Multi-modal communication: Photonic + Acoustic + Radio waves with quantum superposition | Powered by <a href="https://github.com/mermaidnicheboutique-code/luxbin-light-language">LUXBIN Light Language</a></p>
+        </div>
     </div>
 
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js"></script>
     <script>
-        // Web3 Configuration
-        const LUXBIN_TOKEN = '0x66b4627B4Dd73228D24f24E844B6094091875169';
-        const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
-        const BASE_CHAIN_ID = '0x2105'; // Base mainnet
+        let currentMode = 'photonic';
+        let audioContext = null;
+        let oscillators = [];
+        let canvas, ctx;
+        let animationId = null;
 
-        let provider, signer, userAddress;
+        // LUXBIN Character Set (simplified)
+        const LUXBIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:-()[]{}@#$%^&*+=_~`<>\"'|\\";
 
-        // Connect Wallet
-        document.getElementById('connect-wallet').addEventListener('click', async () => {
-            try {
-                if (typeof window.ethereum === 'undefined') {
-                    alert('Please install MetaMask or Coinbase Wallet!');
-                    window.open('https://metamask.io/download/', '_blank');
-                    return;
+        // Initialize canvas
+        document.addEventListener('DOMContentLoaded', () => {
+            canvas = document.getElementById('wave-canvas');
+            ctx = canvas.getContext('2d');
+            document.getElementById('input-text').value = 'HELLO QUANTUM';
+            translate();
+        });
+
+        function setWaveMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.wave-toggle button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(mode + '-btn').classList.add('active');
+
+            const audioControls = document.getElementById('audio-controls');
+            const superpositionInfo = document.getElementById('superposition-info');
+
+            if (mode === 'acoustic' || mode === 'radio' || mode === 'superposition') {
+                audioControls.style.display = 'flex';
+                if (mode === 'superposition') {
+                    superpositionInfo.style.display = 'block';
+                } else {
+                    superpositionInfo.style.display = 'none';
                 }
-
-                provider = new ethers.providers.Web3Provider(window.ethereum);
-                await provider.send("eth_requestAccounts", []);
-                signer = provider.getSigner();
-                userAddress = await signer.getAddress();
-
-                // Switch to Base network
-                try {
-                    await window.ethereum.request({
-                        method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: BASE_CHAIN_ID }],
-                    });
-                } catch (switchError) {
-                    if (switchError.code === 4902) {
-                        await window.ethereum.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [{
-                                chainId: BASE_CHAIN_ID,
-                                chainName: 'Base',
-                                nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
-                                rpcUrls: ['https://mainnet.base.org'],
-                                blockExplorerUrls: ['https://basescan.org']
-                            }]
-                        });
-                    }
-                }
-
-                document.getElementById('wallet-status').innerHTML = `✅ Connected: ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
-                document.getElementById('purchase-section').style.display = 'block';
-                document.getElementById('connect-wallet').textContent = '✅ Wallet Connected';
-                document.getElementById('connect-wallet').disabled = true;
-            } catch (error) {
-                console.error('Connection error:', error);
-                alert('Failed to connect wallet: ' + error.message);
+            } else {
+                audioControls.style.display = 'none';
+                superpositionInfo.style.display = 'none';
             }
-        });
-
-        // Buy with ETH
-        document.getElementById('buy-with-eth').addEventListener('click', async () => {
-            const amount = document.getElementById('eth-amount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid amount');
-                return;
-            }
-
-            try {
-                // Simple direct purchase - send ETH to contract
-                const tx = await signer.sendTransaction({
-                    to: LUXBIN_TOKEN,
-                    value: ethers.utils.parseEther(amount)
-                });
-
-                alert('Transaction sent! Hash: ' + tx.hash);
-                await tx.wait();
-                alert('Purchase successful! 🎉');
-            } catch (error) {
-                console.error('Purchase error:', error);
-                alert('Purchase failed: ' + error.message);
-            }
-        });
-
-        // Buy with USDC
-        document.getElementById('buy-with-usdc').addEventListener('click', async () => {
-            const amount = document.getElementById('usdc-amount').value;
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid amount');
-                return;
-            }
-
-            try {
-                const usdcContract = new ethers.Contract(
-                    USDC_BASE,
-                    ['function transfer(address to, uint256 amount) returns (bool)'],
-                    signer
-                );
-
-                const tx = await usdcContract.transfer(LUXBIN_TOKEN, ethers.utils.parseUnits(amount, 6));
-                alert('Transaction sent! Hash: ' + tx.hash);
-                await tx.wait();
-                alert('Purchase successful! 🎉');
-            } catch (error) {
-                console.error('Purchase error:', error);
-                alert('Purchase failed: ' + error.message);
-            }
-        });
-
-        // Create floating particles
-        const particlesContainer = document.querySelector('.particles');
-        const particleCount = 20;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-
-            const size = Math.random() * 100 + 50;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-
-            particlesContainer.appendChild(particle);
         }
 
-        // Video sequencing for 6 videos
-        const videos = [
-            'bg-video-1.mp4',
-            'bg-video-2.mp4',
-            'bg-video-3.mp4',
-            'bg-video-4.mp4',
-            'bg-video-5.mp4',
-            'bg-video-6.mp4'
-        ];
-        let currentVideoIndex = 0;
-        const videoElement = document.getElementById('bg-video');
-
-        // Play next video in sequence
-        videoElement.addEventListener('ended', function() {
-            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-            videoElement.src = videos[currentVideoIndex];
-            videoElement.play();
-        });
-
-        // Fallback: if loop fails, manually loop
-        videoElement.addEventListener('error', function() {
-            console.log('Video error, trying next...');
-            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-            videoElement.src = videos[currentVideoIndex];
-            videoElement.play();
-        });
-
-        // Scroll reveal animation
-        const revealElements = document.querySelectorAll('section');
-
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const revealPoint = 150;
-
-                if (elementTop < windowHeight - revealPoint) {
-                    element.classList.add('active');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll(); // Initial check
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Animated counter for metrics
-        const animateValue = (element, start, end, duration) => {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = progress * (end - start) + start;
-                element.textContent = Math.floor(value).toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
+        // Color mapping for demonstration (HSL to RGB conversion)
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            s /= 100;
+            l /= 100;
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
             };
-            window.requestAnimationFrame(step);
-        };
+            let r, g, b;
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
 
-        // Trigger counter animation when metrics are in view
-        const metrics = document.querySelectorAll('.metric');
-        const animateMetrics = () => {
-            metrics.forEach(metric => {
-                const rect = metric.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom >= 0 && !metric.classList.contains('animated')) {
-                    metric.classList.add('animated');
-                    const text = metric.textContent;
-                    const numMatch = text.match(/[\d,]+/);
-                    if (numMatch) {
-                        const endValue = parseInt(numMatch[0].replace(/,/g, ''));
-                        if (!isNaN(endValue)) {
-                            animateValue(metric, 0, endValue, 2000);
+        // Convert text to binary
+        function textToBinary(text) {
+            return text.split('').map(char => {
+                return char.charCodeAt(0).toString(2).padStart(8, '0');
+            }).join(' ');
+        }
+
+        // Convert binary to LUXBIN characters (simplified mapping)
+        function binaryToLuxbin(binary) {
+            const cleanBinary = binary.replace(/\s/g, '');
+            let result = '';
+            for (let i = 0; i < cleanBinary.length; i += 6) {
+                const chunk = cleanBinary.substr(i, 6).padEnd(6, '0');
+                const index = parseInt(chunk, 2) % LUXBIN_ALPHABET.length;
+                result += LUXBIN_ALPHABET[index];
+            }
+            return result;
+        }
+
+        // Convert LUXBIN to multi-wave encoding
+        function luxbinToWaves(luxbin) {
+            const colors = [];
+            const wavelengths = [];
+            const frequencies = [];
+            const amplitudes = [];
+
+            for (let i = 0; i < luxbin.length; i += 3) {
+                const char1 = luxbin[i] || 'A';
+                const char2 = luxbin[i + 1] || 'A';
+                const char3 = luxbin[i + 2] || 'A';
+
+                const index1 = LUXBIN_ALPHABET.indexOf(char1.toUpperCase());
+                const index2 = LUXBIN_ALPHABET.indexOf(char2.toUpperCase());
+                const index3 = LUXBIN_ALPHABET.indexOf(char3.toUpperCase());
+
+                // Primary wavelength (visible light)
+                const hue = (index1 / LUXBIN_ALPHABET.length) * 360;
+                const rgb = hslToRgb(hue, 80, 60);
+                colors.push(`rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
+                wavelengths.push(`${Math.round(400 + (hue / 360) * 300)}nm`);
+
+                // Secondary frequencies based on mode
+                if (currentMode === 'acoustic') {
+                    // Audio frequencies (20Hz - 20kHz)
+                    const freq1 = 200 + (index1 / LUXBIN_ALPHABET.length) * 19980;
+                    const freq2 = 200 + (index2 / LUXBIN_ALPHABET.length) * 19980;
+                    const freq3 = 200 + (index3 / LUXBIN_ALPHABET.length) * 19980;
+                    frequencies.push(`${Math.round(freq1)}Hz`);
+                    amplitudes.push([0.3, 0.3, 0.3]); // Equal amplitudes
+                } else if (currentMode === 'radio') {
+                    // Radio frequencies (1MHz - 100MHz)
+                    const freq1 = 1000000 + (index1 / LUXBIN_ALPHABET.length) * 99000000;
+                    const freq2 = 1000000 + (index2 / LUXBIN_ALPHABET.length) * 99000000;
+                    const freq3 = 1000000 + (index3 / LUXBIN_ALPHABET.length) * 99000000;
+                    frequencies.push(`${(freq1/1000000).toFixed(1)}MHz`);
+                    amplitudes.push([0.3, 0.3, 0.3]);
+                } else if (currentMode === 'superposition') {
+                    // Superposition: matched amplitudes for interference
+                    const baseFreq = 440 + (index1 / LUXBIN_ALPHABET.length) * 880; // Musical scale
+                    const freq1 = baseFreq;
+                    const freq2 = baseFreq * 1.25; // Perfect fifth
+                    const freq3 = baseFreq * 1.5;  // Perfect octave
+                    frequencies.push(`${Math.round(freq1)}Hz | ${Math.round(freq2)}Hz | ${Math.round(freq3)}Hz`);
+                    amplitudes.push([0.4, 0.4, 0.4]); // Matched amplitudes for superposition
+                }
+            }
+
+            return { colors, wavelengths, frequencies, amplitudes };
+        }
+
+        function drawWaves(colors, amplitudes) {
+            if (!canvas || !ctx) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const time = Date.now() * 0.005;
+            const centerY = canvas.height / 2;
+
+            // Draw multiple waves
+            colors.forEach((color, index) => {
+                if (index >= 3) return; // Limit to 3 waves for visualization
+
+                const amp = amplitudes[index] || [0.3, 0.3, 0.3];
+                const yOffset = (index - 1) * 40; // Stack waves vertically
+
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                for (let x = 0; x < canvas.width; x++) {
+                    let y = 0;
+
+                    if (currentMode === 'superposition' && index === 0) {
+                        // Draw superposition of three waves
+                        y += Math.sin(x * 0.02 + time) * amp[0] * 30;
+                        y += Math.sin(x * 0.025 + time * 1.25) * amp[1] * 30;
+                        y += Math.sin(x * 0.03 + time * 1.5) * amp[2] * 30;
+                    } else {
+                        // Single wave
+                        y = Math.sin(x * 0.02 + time + index * Math.PI / 3) * amp[0] * 30;
+                    }
+
+                    if (x === 0) {
+                        ctx.moveTo(x, centerY + y + yOffset);
+                    } else {
+                        ctx.lineTo(x, centerY + y + yOffset);
+                    }
+                }
+
+                ctx.stroke();
+            });
+        }
+
+        function translate() {
+            const input = document.getElementById('input-text').value;
+            if (!input.trim()) {
+                alert('Please enter some text to translate!');
+                return;
+            }
+
+            // Reset active steps
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+
+            // Step 1: Natural Language
+            document.getElementById('natural-lang').textContent = input;
+            document.getElementById('step1').classList.add('active');
+
+            setTimeout(() => {
+                // Step 2: Binary Code
+                const binary = textToBinary(input);
+                document.getElementById('binary-code').textContent = binary;
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step3').classList.add('active');
+
+                setTimeout(() => {
+                    // Step 3: LUXBIN Dictionary
+                    const luxbin = binaryToLuxbin(binary);
+                    document.getElementById('luxbin-dict').textContent = luxbin;
+                    document.getElementById('step3').classList.remove('active');
+                    document.getElementById('step4').classList.add('active');
+
+                    setTimeout(() => {
+                        // Step 4: Multi-Wave Encoding
+                        const { colors, wavelengths, frequencies, amplitudes } = luxbinToWaves(luxbin);
+
+                        const colorDisplay = document.getElementById('color-display');
+                        colorDisplay.innerHTML = '';
+                        colors.forEach(color => {
+                            const box = document.createElement('div');
+                            box.className = 'color-box';
+                            box.style.backgroundColor = color;
+                            colorDisplay.appendChild(box);
+                        });
+
+                        document.getElementById('wavelength-info').textContent =
+                            `Wavelengths: ${wavelengths.slice(0, 8).join(', ')}${wavelengths.length > 8 ? '...' : ''}`;
+
+                        if (frequencies.length > 0) {
+                            document.getElementById('frequency-info').textContent =
+                                `Frequencies: ${frequencies.slice(0, 3).join(', ')}${frequencies.length > 3 ? '...' : ''}`;
                         }
+
+                        // Start wave animation
+                        if (animationId) cancelAnimationFrame(animationId);
+                        function animate() {
+                            drawWaves(colors, amplitudes);
+                            animationId = requestAnimationFrame(animate);
+                        }
+                        animate();
+
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        function playAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            stopAudio(); // Stop any existing audio
+
+            const input = document.getElementById('input-text').value;
+            const binary = textToBinary(input);
+            const luxbin = binaryToLuxbin(binary);
+
+            const { frequencies, amplitudes } = luxbinToWaves(luxbin);
+
+            frequencies.forEach((freqStr, index) => {
+                if (currentMode === 'superposition' && index === 0) {
+                    // Create superposition of three oscillators
+                    const baseFreq = parseFloat(freqStr.split(' | ')[0]);
+                    const freqs = [
+                        baseFreq,
+                        baseFreq * 1.25,
+                        baseFreq * 1.5
+                    ];
+
+                    freqs.forEach((freq, i) => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+
+                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                        oscillator.type = 'sine';
+
+                        gainNode.gain.setValueAtTime(amplitudes[index][i] || 0.1, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2);
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + 2);
+
+                        oscillators.push(oscillator);
+                    });
+                } else {
+                    const freq = parseFloat(freqStr.split('Hz')[0]);
+                    if (freq && freq > 0) {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+
+                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                        oscillator.type = 'sine';
+
+                        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + 1);
+
+                        oscillators.push(oscillator);
                     }
                 }
             });
-        };
+        }
 
-        window.addEventListener('scroll', animateMetrics);
-        setTimeout(animateMetrics, 500); // Initial check
+        function stopAudio() {
+            oscillators.forEach(osc => {
+                try {
+                    osc.stop();
+                } catch (e) {
+                    // Already stopped
+                }
+            });
+            oscillators = [];
+        }
+
+        function clearAll() {
+            document.getElementById('input-text').value = '';
+            document.getElementById('natural-lang').textContent = 'Your input text will appear here';
+            document.getElementById('luxbin-dict').textContent = 'LUXBIN characters will appear here';
+            document.getElementById('binary-code').textContent = 'Binary representation will appear here';
+            document.getElementById('color-display').innerHTML = '';
+            document.getElementById('wavelength-info').textContent = '';
+            document.getElementById('frequency-info').textContent = '';
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+
+            stopAudio();
+        }
     </script>
 </body>
 </html>
