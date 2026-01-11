@@ -2,7 +2,6 @@
 
 import { BackgroundVideos } from "@/components/BackgroundVideos";
 import { LuxbinTokenLogoRotating } from "@/components/AnimatedTokenLogo";
-import { APIKeyDashboard } from "@/components/APIKeyDashboard";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -467,7 +466,20 @@ export default function DevelopersPage() {
 
             {/* API Keys Tab */}
             {activeTab === "apikeys" && (
-              <APIKeyDashboard />
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold mb-8">🔑 API Keys</h2>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+                  <p className="text-gray-300 mb-4">
+                    API key management coming soon. Contact us for early access.
+                  </p>
+                  <a
+                    href="mailto:Nicholechristie555@gmail.com"
+                    className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+                  >
+                    Request API Access
+                  </a>
+                </div>
+              </div>
             )}
 
             {/* Code Examples Tab */}
