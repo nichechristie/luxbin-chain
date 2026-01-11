@@ -21,43 +21,61 @@ export default function Home() {
       <FloatingParticles />
 
       <div className="relative" style={{ zIndex: 10 }}>
+        {/* Simplified Header */}
         <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="max-w-full mx-auto px-6 py-4 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              {/* Animated rotating logo using background videos */}
               <LuxbinTokenLogoRotating size={40} />
               <span className="text-2xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                 LUXBIN
               </span>
             </div>
-            <nav className="hidden md:flex gap-6">
-              {[
-                { name: "About", href: "/about" },
-                { name: "Quantum AI", href: "/quantum-ai" },
-                { name: "Research", href: "/research" },
-                { name: "DNA Explorer", href: "/dna-explorer" },
-                { name: "Lightshow", href: "/lightshow" },
-                { name: "Omnichain", href: "/omnichain-dna" },
-                { name: "Chain Info", href: "#chain" },
-                { name: "Buy", href: "#buy" },
-                { name: "Deploy", href: "#deploy" },
-                { name: "Mirror", href: "/mirror" },
-                { name: "Developers", href: "/developers" }
-              ].map((link) => (
-                link.href.startsWith('/') ? (
-                  <Link key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                    {link.name}
-                  </Link>
-                ) : (
-                  <a key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </nav>
             <WalletButton />
           </div>
         </header>
+
+        {/* Left Sidebar Navigation */}
+        <div className="fixed left-0 top-20 bottom-0 w-64 bg-black/40 backdrop-blur-xl border-r border-white/10 overflow-y-auto z-40 hidden md:block">
+          <nav className="p-4 space-y-2">
+            {[
+              { name: "About", href: "/about", icon: "ℹ️" },
+              { name: "Quantum AI", href: "/quantum-ai", icon: "⚛️" },
+              { name: "Mirror", href: "/mirror", icon: "🔮" },
+              { name: "Research", href: "/research", icon: "🔬" },
+              { name: "Developers", href: "/developers", icon: "👨‍💻" },
+              { name: "DNA Explorer", href: "/dna-explorer", icon: "🧬" },
+              { name: "Lightshow", href: "/lightshow", icon: "🌈" },
+              { name: "Translator", href: "/light-translator", icon: "✨" },
+              { name: "Omnichain", href: "/omnichain-dna", icon: "🔗" },
+              { name: "Chain Info", href: "#chain", icon: "⛓️" },
+              { name: "Buy LUX", href: "#buy", icon: "💰" },
+              { name: "Deploy Token", href: "#deploy", icon: "🚀" }
+            ].map((link) => (
+              link.href.startsWith('/') ? (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span>{link.name}</span>
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span>{link.name}</span>
+                </a>
+              )
+            ))}
+          </nav>
+        </div>
+
+        {/* Main Content with left margin for sidebar */}
+        <div className="md:ml-64">
 
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
@@ -534,6 +552,7 @@ export default function Home() {
             </div>
           </div>
         </footer>
+        </div>
       </div>
 
       {/* AI Chatbot with Animated Avatar */}

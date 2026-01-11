@@ -2,6 +2,7 @@
 
 import { BackgroundVideos } from "@/components/BackgroundVideos";
 import { LuxbinTokenLogoRotating } from "@/components/AnimatedTokenLogo";
+import { APIKeyDashboard } from "@/components/APIKeyDashboard";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -64,57 +65,312 @@ export default function DevelopersPage() {
           </div>
         </section>
 
-        {/* Endpoint Info */}
+        {/* Chain Information */}
         <section className="px-6 py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-4">🔗 API Endpoints</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-gray-400 text-sm mb-1">WebSocket RPC</p>
-                  <code className="text-green-300 font-mono bg-black/50 px-4 py-2 rounded block">
-                    ws://localhost:9944
-                  </code>
+          <div className="max-w-6xl mx-auto space-y-6">
+            {/* Network Info */}
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-8">
+              <h2 className="text-3xl font-bold mb-6">⛓️ LUXBIN Chain Information</h2>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-black/30 rounded-xl p-6">
+                  <h3 className="text-lg font-bold text-purple-300 mb-4">Network Details</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-gray-400 text-sm">Chain Name</p>
+                      <p className="text-white font-mono font-bold">LUXBIN</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Network Type</p>
+                      <p className="text-white font-mono">Gasless Layer 1 (Substrate)</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Consensus</p>
+                      <p className="text-white font-mono">Aura + GRANDPA</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Block Time</p>
+                      <p className="text-white font-mono">~6 seconds</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-gray-400 text-sm mb-1">HTTP RPC</p>
-                  <code className="text-green-300 font-mono bg-black/50 px-4 py-2 rounded block">
-                    http://localhost:9944
-                  </code>
+
+                <div className="bg-black/30 rounded-xl p-6">
+                  <h3 className="text-lg font-bold text-cyan-300 mb-4">Token Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-gray-400 text-sm">Token Symbol</p>
+                      <p className="text-white font-mono font-bold">LUX</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Total Supply</p>
+                      <p className="text-white font-mono">1,000,000,000 LUX</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Decimals</p>
+                      <p className="text-white font-mono">18</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Gas Fees</p>
+                      <p className="text-green-300 font-mono font-bold">ZERO (100% Free)</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-400 mt-4">
-                💡 All transactions on LUXBIN are <strong className="text-green-300">completely free</strong> - zero gas fees!
-              </p>
+
+              {/* RPC Endpoints */}
+              <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-green-300 mb-4">🔗 RPC Endpoints</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-400 text-sm mb-2">WebSocket RPC</p>
+                    <code className="text-green-300 font-mono bg-black/50 px-4 py-2 rounded block text-sm">
+                      ws://localhost:9944
+                    </code>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm mb-2">HTTP RPC</p>
+                    <code className="text-green-300 font-mono bg-black/50 px-4 py-2 rounded block text-sm">
+                      http://localhost:9944
+                    </code>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-400 mt-4">
+                  💡 All transactions on LUXBIN are <strong className="text-green-300">completely free</strong> - zero gas fees!
+                </p>
+              </div>
+
+              {/* Quantum Features */}
+              <div className="grid md:grid-cols-3 gap-4 mt-6">
+                <div className="bg-black/30 rounded-xl p-4 border border-orange-500/30">
+                  <div className="text-2xl mb-2">⚛️</div>
+                  <h4 className="font-bold text-orange-300 mb-2">Quantum Secured</h4>
+                  <p className="text-xs text-gray-400">Diamond NV center quantum computing integration</p>
+                </div>
+                <div className="bg-black/30 rounded-xl p-4 border border-green-500/30">
+                  <div className="text-2xl mb-2">🌱</div>
+                  <h4 className="font-bold text-green-300 mb-2">99% Energy Reduction</h4>
+                  <p className="text-xs text-gray-400">vs Bitcoin - sustainable quantum computing</p>
+                </div>
+                <div className="bg-black/30 rounded-xl p-4 border border-blue-500/30">
+                  <div className="text-2xl mb-2">🌈</div>
+                  <h4 className="font-bold text-blue-300 mb-2">Light Language</h4>
+                  <p className="text-xs text-gray-400">Photonic communication protocol</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Deployed Contracts */}
+            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold mb-6">📜 Smart Contracts & Pallets</h3>
+
+              {/* Substrate Pallets */}
+              <div className="mb-8">
+                <h4 className="text-lg font-bold text-purple-300 mb-4">Substrate Pallets (LUXBIN Chain)</h4>
+                <div className="space-y-3">
+                  <div className="bg-black/30 rounded-xl p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h5 className="font-bold text-cyan-300">System Pallet</h5>
+                        <p className="text-sm text-gray-400">Core blockchain functionality</p>
+                      </div>
+                      <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-xs">
+                        Active
+                      </span>
+                    </div>
+                    <code className="text-xs text-gray-500 font-mono block">frame_system</code>
+                  </div>
+
+                  <div className="bg-black/30 rounded-xl p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h5 className="font-bold text-cyan-300">Balances Pallet</h5>
+                        <p className="text-sm text-gray-400">LUX token transfers & management</p>
+                      </div>
+                      <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-xs">
+                        Active
+                      </span>
+                    </div>
+                    <code className="text-xs text-gray-500 font-mono block">pallet_balances</code>
+                  </div>
+
+                  <div className="bg-black/30 rounded-xl p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h5 className="font-bold text-cyan-300">Immune System Pallet</h5>
+                        <p className="text-sm text-gray-400">Biological security patterns & threat detection</p>
+                      </div>
+                      <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-xs">
+                        Active
+                      </span>
+                    </div>
+                    <code className="text-xs text-gray-500 font-mono block">pallet_immune_system</code>
+                  </div>
+                </div>
+              </div>
+
+              {/* EVM Contracts on Base */}
+              <div>
+                <h4 className="text-lg font-bold text-orange-300 mb-4">EVM Contracts (Base Network)</h4>
+                <div className="space-y-3">
+                  <div className="bg-black/30 rounded-xl p-4 border border-orange-500/30">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h5 className="font-bold text-orange-300">LUX Token (ERC-20)</h5>
+                        <p className="text-sm text-gray-400 mb-2">LUXBIN native token on Base network</p>
+                        <div className="flex items-center gap-2 mb-2">
+                          <code className="text-xs text-green-300 font-mono bg-black/50 px-2 py-1 rounded">
+                            0x66b4627B4Dd73228D24f24E844B6094091875169
+                          </code>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText('0x66b4627B4Dd73228D24f24E844B6094091875169');
+                            }}
+                            className="px-2 py-1 bg-purple-600 hover:bg-purple-700 rounded text-xs"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-xs">
+                        Deployed
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <p className="text-gray-500">Network</p>
+                        <p className="text-white font-mono">Base</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Standard</p>
+                        <p className="text-white font-mono">ERC-20</p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://basescan.org/address/0x66b4627B4Dd73228D24f24E844B6094091875169"
+                      target="_blank"
+                      className="inline-block mt-3 text-sm text-purple-400 hover:text-purple-300"
+                    >
+                      View on BaseScan →
+                    </a>
+                  </div>
+
+                  <div className="bg-black/30 rounded-xl p-4 border border-blue-500/30">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h5 className="font-bold text-blue-300">ERC-4337 EntryPoint</h5>
+                        <p className="text-sm text-gray-400 mb-2">Account abstraction entry point for smart wallets</p>
+                        <div className="flex items-center gap-2 mb-2">
+                          <code className="text-xs text-green-300 font-mono bg-black/50 px-2 py-1 rounded">
+                            0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
+                          </code>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText('0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789');
+                            }}
+                            className="px-2 py-1 bg-purple-600 hover:bg-purple-700 rounded text-xs"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-xs">
+                        Deployed
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <p className="text-gray-500">Network</p>
+                        <p className="text-white font-mono">Base</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Standard</p>
+                        <p className="text-white font-mono">ERC-4337</p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://basescan.org/address/0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+                      target="_blank"
+                      className="inline-block mt-3 text-sm text-purple-400 hover:text-purple-300"
+                    >
+                      View on BaseScan →
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contract Templates */}
+              <div className="mt-8">
+                <h4 className="text-lg font-bold text-pink-300 mb-4">Contract Templates</h4>
+                <div className="space-y-3">
+                  <div className="bg-black/30 rounded-xl p-4 border border-pink-500/30">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h5 className="font-bold text-pink-300">SimpleToken Template</h5>
+                        <p className="text-sm text-gray-400">ERC-20 token template with customizable name, symbol & supply</p>
+                      </div>
+                      <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-lg text-yellow-400 text-xs">
+                        Template
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Features: transfer, approve, balanceOf, allowance
+                    </p>
+                  </div>
+
+                  <div className="bg-black/30 rounded-xl p-4 border border-pink-500/30">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h5 className="font-bold text-pink-300">SimpleNFT Template</h5>
+                        <p className="text-sm text-gray-400">ERC-721 NFT template with minting & metadata</p>
+                      </div>
+                      <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-lg text-yellow-400 text-xs">
+                        Template
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Features: mint, ownerOf, tokenURI, transferFrom
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Tabbed Content */}
+        {/* Content with Sidebar */}
         <section className="px-6 py-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex gap-4 mb-8 overflow-x-auto">
-              {[
-                { id: "quickstart", name: "Quick Start" },
-                { id: "examples", name: "Code Examples" },
-                { id: "rpc", name: "RPC Methods" },
-                { id: "storage", name: "Storage" },
-                { id: "extrinsics", name: "Extrinsics" },
-                { id: "events", name: "Events" }
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all ${
-                    activeTab === tab.id
-                      ? "bg-gradient-to-r from-purple-600 to-pink-600"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
-                >
-                  {tab.name}
-                </button>
-              ))}
+          <div className="max-w-7xl mx-auto flex gap-6">
+            {/* Left Sidebar Navigation */}
+            <div className="w-64 flex-shrink-0">
+              <div className="sticky top-24 space-y-3">
+                {[
+                  { id: "quickstart", name: "Quick Start", icon: "🚀" },
+                  { id: "apikeys", name: "API Keys", icon: "🔑" },
+                  { id: "examples", name: "Examples", icon: "💻" },
+                  { id: "rpc", name: "RPC Methods", icon: "📡" },
+                  { id: "storage", name: "Storage", icon: "💾" },
+                  { id: "extrinsics", name: "Transactions", icon: "📝" },
+                  { id: "events", name: "Events", icon: "📊" }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full px-4 py-3 rounded-xl font-semibold transition-all text-left flex items-center gap-3 ${
+                      activeTab === tab.id
+                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
+                        : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    <span className="text-xl">{tab.icon}</span>
+                    <span>{tab.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
+
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
 
             {/* Quick Start Tab */}
             {activeTab === "quickstart" && (
@@ -207,6 +463,11 @@ export default function DevelopersPage() {
                   </div>
                 </div>
               </div>
+            )}
+
+            {/* API Keys Tab */}
+            {activeTab === "apikeys" && (
+              <APIKeyDashboard />
             )}
 
             {/* Code Examples Tab */}
@@ -551,6 +812,7 @@ await batch.signAndSend(senderKeyPair);`}
                 </div>
               </div>
             )}
+            </div>
           </div>
         </section>
 
