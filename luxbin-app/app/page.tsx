@@ -10,6 +10,7 @@ import { TokenDeployer } from "@/components/TokenDeployer";
 import { NFTDeployer } from "@/components/NFTDeployer";
 import { CoinbasePaymasterStatus } from "@/components/CoinbasePaymasterStatus";
 import { DNABlockExplorer } from "@/components/DNABlockExplorer";
+import { TokenSelector } from "@/components/TokenSelector";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -371,7 +372,14 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Get LUXBIN Tokens</h2>
-              <p className="text-gray-400 text-lg">Multiple ways to acquire LUX tokens</p>
+              <p className="text-gray-400 text-lg">Choose your token - LUX (Quantum) featured, LUXBIN (Legacy) available</p>
+            </div>
+
+            {/* Dual Token Selector */}
+            <TokenSelector />
+
+            <div className="text-center mb-8 mt-12">
+              <p className="text-gray-400 text-lg">Or use our integrated trading options:</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -383,7 +391,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4">💱 Swap on Uniswap</h3>
                 <p className="text-gray-300 mb-6">Trade ETH for LUXBIN on Base L2 via decentralized exchange</p>
                 <a
-                  href="https://app.uniswap.org/#/swap?outputCurrency=0x66b4627B4Dd73228D24f24E844B6094091875169&chain=base"
+                  href="https://app.uniswap.org/#/swap?outputCurrency=0xbB5bf2139CbACDeE52991cf32f9c4d558B9464d0&chain=base"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block mb-4"

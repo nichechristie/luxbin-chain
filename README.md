@@ -8,58 +8,32 @@
 
 ---
 
-## 🎬 Experience LUXBIN
+## 🎯 Key Innovations
 
 <div align="center">
 
-<!-- Hero video: poster used for fallback and visual polish -->
-<video controls width="100%" height="400" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-hero.png" preload="none">
-  <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4" type="video/mp4">
-  Your browser does not support HTML5 video. Click to open: https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-1.mp4
-</video>
+**LUXBIN pioneers photonic blockchain technology for sustainable computing**
 
-*Immerse yourself in the future of sustainable blockchain technology*
+🔄 **Time-Based Cryptography** | 🌈 **Photonic Data Encoding** | 💎 **Quantum-Ready Architecture**
 
 </div>
 
-> Note: GitHub's README rendering may not always play embedded mp4s consistently in every browser. If you experience playback issues, consider (a) linking the MP4 directly, (b) using a short animated GIF as a thumbnail that links to the MP4, or (c) hosting videos on a CDN/YouTube and embedding or linking that instead.
-
 ---
 
-## 🌟 Brand Showcase Videos
+## 🚀 Getting Started
 
-A compact grid of short demo videos. Each opens inline (if supported) or links to the file.
+### Quick Setup
+```bash
+git clone https://github.com/mermaidnicheboutique-code/luxbin-chain.git
+cd luxbin-chain
+forge install
+npm install
+```
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <strong>🔄 System Architecture Overview</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-2.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-2.mp4" type="video/mp4">
-      </video>
-    </td>
-    <td align="center" width="50%">
-      <strong>⚡ Lightning Consensus Demonstration</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-3.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-3.mp4" type="video/mp4">
-      </video>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>🤖 AI Compute Marketplace</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-4.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-4.mp4" type="video/mp4">
-      </video>
-    </td>
-    <td align="center">
-      <strong>🌈 Photonic Encoding Technology</strong><br>
-      <video controls width="100%" preload="none" poster="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/assets/poster-5.png">
-        <source src="https://raw.githubusercontent.com/mermaidnicheboutique-code/luxbin-chain/main/bg-video-5.mp4" type="video/mp4">
-      </video>
-    </td>
-  </tr>
-</table>
+### Key Commands
+- `forge build` - Compile smart contracts
+- `forge test` - Run test suite
+- `forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast` - Deploy contracts
 
 ---
 

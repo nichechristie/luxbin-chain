@@ -9,5 +9,8 @@
   },
   "workspaces": [
     "luxbin-app"
-  ]
+  ],
+  "dependencies": {
+    "luxbin-light-language": "file:../Luxbin-light-language"
+  }
 }

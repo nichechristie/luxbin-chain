@@ -90,7 +90,8 @@ LUXBIN is the world's first gasless Layer 1 blockchain with quantum-resistant se
 - 6-second blocks, Chain ID: 4242
 
 **LUX Token:**
-- Contract: 0x66b4627B4Dd73228D24f24E844B6094091875169 (Base)
+- LUX Token (Quantum - Featured): 0xbB5bf2139CbACDeE52991cf32f9c4d558B9464d0 (Base)
+- LUXBIN Token (Legacy): 0x66b4627B4Dd73228D24f24E844B6094091875169 (Base)
 - Buy on: Coinbase Pay, Uniswap (Base), in-app swap
 - Uses: Staking, governance, cross-chain bridging
 
