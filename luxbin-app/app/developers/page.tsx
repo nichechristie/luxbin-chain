@@ -345,6 +345,7 @@ export default function DevelopersPage() {
               <div className="sticky top-24 space-y-3">
                 {[
                   { id: "quickstart", name: "Quick Start", icon: "🚀" },
+                  { id: "codetranslation", name: "Code Translation", icon: "🌉" },
                   { id: "apikeys", name: "API Keys", icon: "🔑" },
                   { id: "examples", name: "Examples", icon: "💻" },
                   { id: "rpc", name: "RPC Methods", icon: "📡" },
@@ -460,6 +461,211 @@ export default function DevelopersPage() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Code Translation Tab */}
+            {activeTab === "codetranslation" && (
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold mb-8">🌉 Code Language Translation API</h2>
+
+                <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-8 mb-6">
+                  <h3 className="text-2xl font-bold mb-4">Overview</h3>
+                  <p className="text-gray-300 mb-4">
+                    Translate code between programming languages using AST-based parsing and intelligent code generation.
+                    Currently supports <span className="text-cyan-400 font-bold">Python ↔ JavaScript</span> translation with type inference.
+                  </p>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="bg-black/30 rounded-xl p-4">
+                      <div className="text-cyan-400 font-bold mb-2">AST Parsing</div>
+                      <div className="text-sm text-gray-400">Abstract Syntax Tree analysis for accurate translation</div>
+                    </div>
+                    <div className="bg-black/30 rounded-xl p-4">
+                      <div className="text-cyan-400 font-bold mb-2">Type Inference</div>
+                      <div className="text-sm text-gray-400">Automatic type detection and cross-language mapping</div>
+                    </div>
+                    <div className="bg-black/30 rounded-xl p-4">
+                      <div className="text-cyan-400 font-bold mb-2">Smart Translation</div>
+                      <div className="text-sm text-gray-400">Operator conversion, control flow, and syntax adaptation</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* API Endpoint */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-6">
+                  <h3 className="text-2xl font-bold mb-4">📡 API Endpoint</h3>
+                  <div className="bg-black/80 rounded-xl p-6 overflow-x-auto">
+                    <pre className="text-sm text-green-300">
+{`POST /api/v1/translate-code
+
+Request:
+{
+  "code": "def hello(name): return f'Hello, {name}!'",
+  "source_language": "python",
+  "target_language": "javascript",
+  "enable_type_inference": true
+}
+
+Response:
+{
+  "success": true,
+  "original_code": "def hello(name): return f'Hello, {name}!'",
+  "translated_code": "function hello(name) {\\n  return \`Hello, \${name}!\`;\\n}",
+  "source_language": "python",
+  "target_language": "javascript",
+  "type_inference": {
+    "name": {
+      "name": "str",
+      "category": "primitive",
+      "js_equivalent": "string"
+    }
+  }
+}`}
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Examples */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-6">
+                  <h3 className="text-2xl font-bold mb-4">💡 Translation Examples</h3>
+
+                  <div className="space-y-6">
+                    {/* Python to JavaScript */}
+                    <div>
+                      <h4 className="text-lg font-bold text-orange-400 mb-3">Python → JavaScript</h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-black/50 rounded-xl p-4">
+                          <p className="text-xs text-gray-500 mb-2">Python Input</p>
+                          <pre className="text-sm text-green-300">
+{`def calculate_fibonacci(n):
+    if n <= 1:
+        return n
+    return calculate_fibonacci(n-1) + \\
+           calculate_fibonacci(n-2)`}
+                          </pre>
+                        </div>
+                        <div className="bg-black/50 rounded-xl p-4">
+                          <p className="text-xs text-gray-500 mb-2">JavaScript Output</p>
+                          <pre className="text-sm text-cyan-300">
+{`function calculate_fibonacci(n) {
+  if (n <= 1) {
+    return n;
+  }
+  return calculate_fibonacci(n - 1) +
+         calculate_fibonacci(n - 2);
+}`}
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* JavaScript to Python */}
+                    <div>
+                      <h4 className="text-lg font-bold text-purple-400 mb-3">JavaScript → Python</h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-black/50 rounded-xl p-4">
+                          <p className="text-xs text-gray-500 mb-2">JavaScript Input</p>
+                          <pre className="text-sm text-cyan-300">
+{`function processNumbers(numbers) {
+    return numbers.filter(isEven)
+                  .map(n => n * 2);
+}`}
+                          </pre>
+                        </div>
+                        <div className="bg-black/50 rounded-xl p-4">
+                          <p className="text-xs text-gray-500 mb-2">Python Output</p>
+                          <pre className="text-sm text-green-300">
+{`def processNumbers(numbers):
+    return [n * 2 for n in numbers
+            if isEven(n)]`}
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Language Mappings */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-6">
+                  <h3 className="text-2xl font-bold mb-4">🔄 Language Mappings</h3>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Operators */}
+                    <div>
+                      <h4 className="text-lg font-bold text-cyan-400 mb-3">Operators</h4>
+                      <div className="bg-black/50 rounded-xl p-4">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-white/10">
+                              <th className="text-left py-2 text-orange-400">Python</th>
+                              <th className="text-left py-2 text-cyan-400">JavaScript</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-gray-300">
+                            <tr><td className="py-1"><code>==</code></td><td><code>===</code></td></tr>
+                            <tr><td className="py-1"><code>!=</code></td><td><code>!==</code></td></tr>
+                            <tr><td className="py-1"><code>and</code></td><td><code>&&</code></td></tr>
+                            <tr><td className="py-1"><code>or</code></td><td><code>||</code></td></tr>
+                            <tr><td className="py-1"><code>not</code></td><td><code>!</code></td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Data Types */}
+                    <div>
+                      <h4 className="text-lg font-bold text-purple-400 mb-3">Data Types</h4>
+                      <div className="bg-black/50 rounded-xl p-4">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-white/10">
+                              <th className="text-left py-2 text-orange-400">Python</th>
+                              <th className="text-left py-2 text-cyan-400">JavaScript</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-gray-300">
+                            <tr><td className="py-1"><code>int/float</code></td><td><code>number</code></td></tr>
+                            <tr><td className="py-1"><code>str</code></td><td><code>string</code></td></tr>
+                            <tr><td className="py-1"><code>list</code></td><td><code>Array</code></td></tr>
+                            <tr><td className="py-1"><code>dict</code></td><td><code>Object</code></td></tr>
+                            <tr><td className="py-1"><code>bool</code></td><td><code>boolean</code></td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* cURL Example */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+                  <h3 className="text-2xl font-bold mb-4">🚀 Quick Test</h3>
+                  <div className="bg-black/80 rounded-xl p-6 overflow-x-auto relative">
+                    <button
+                      onClick={() => copyCode(`curl -X POST https://luxbin-app.vercel.app/api/v1/translate-code \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "code": "def hello(name): return f\\"Hello, {name}\\"",
+    "source_language": "python",
+    "target_language": "javascript"
+  }'`, "curl-translate")}
+                      className="absolute top-4 right-4 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-sm"
+                    >
+                      {copiedCode === "curl-translate" ? "✓ Copied" : "Copy"}
+                    </button>
+                    <pre className="text-sm text-green-300">
+{`curl -X POST https://luxbin-app.vercel.app/api/v1/translate-code \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "code": "def hello(name): return f\\"Hello, {name}\\"",
+    "source_language": "python",
+    "target_language": "javascript"
+  }'`}
+                    </pre>
+                  </div>
+                  <p className="text-sm text-gray-400 mt-4">
+                    📖 Full documentation: <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain/blob/main/CODE_TRANSLATION_GUIDE.md" target="_blank" className="text-cyan-400 hover:underline">CODE_TRANSLATION_GUIDE.md</a>
+                  </p>
                 </div>
               </div>
             )}
