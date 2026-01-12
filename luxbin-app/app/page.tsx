@@ -270,7 +270,7 @@ export default function Home() {
                 Live Blockchain DNA
               </h2>
               <p className="text-gray-300 text-lg">
-                Watch the NicheAI blockchain in real-time as transactions flow through the network
+                Watch the LUXBIN Chain in real-time as transactions flow through the network
               </p>
             </div>
             <div className="bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-2 shadow-2xl shadow-purple-500/20">
@@ -618,7 +618,7 @@ export default function Home() {
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. NicheAI blockchain is completely gasless." },
+                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. LUXBIN Chain is completely gasless." },
                 { icon: "⚡", title: "Lightning Fast", description: "6-second block finality with Aura + GRANDPA consensus. Fast enough for real-time applications." },
                 { icon: "🎯", title: "Coinbase Smart Wallet", description: "First Substrate chain with ERC-4337 account abstraction. Native support for Coinbase Smart Wallets with social recovery, batch ops, and gasless transactions." },
                 { icon: "🔐", title: "Quantum Resistant", description: "Built with quantum cryptography and advanced security patterns to resist future quantum computing attacks." },
