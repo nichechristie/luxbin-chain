@@ -29,7 +29,7 @@ export default function Home() {
             <div className="flex items-center gap-3">
               <LuxbinTokenLogoRotating size={40} />
               <span className="text-2xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-                LUXBIN
+                NicheAI
               </span>
             </div>
             <WalletButton />
@@ -121,7 +121,7 @@ export default function Home() {
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
             <h1 className="text-6xl md:text-8xl font-bold italic mb-6 bg-gradient-to-r from-purple-400 via-yellow-300 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]">
-              Meet LUXBIN AI
+              Meet NicheAI
             </h1>
             <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">
               Your Intelligent, Conversational AI Assistant
@@ -270,7 +270,7 @@ export default function Home() {
                 Live Blockchain DNA
               </h2>
               <p className="text-gray-300 text-lg">
-                Watch the LUXBIN blockchain in real-time as transactions flow through the network
+                Watch the NicheAI blockchain in real-time as transactions flow through the network
               </p>
             </div>
             <div className="bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-2 shadow-2xl shadow-purple-500/20">
@@ -517,7 +517,7 @@ export default function Home() {
         <section id="buy" className="relative px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Get LUXBIN Tokens</h2>
+              <h2 className="text-4xl font-bold mb-4">Get LUX Tokens</h2>
               <p className="text-gray-400 text-lg">Choose your token - LUX (Quantum) featured, LUXBIN (Legacy) available</p>
             </div>
 
@@ -559,9 +559,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Earn LUXBIN */}
+            {/* Earn Tokens */}
             <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-4 text-center">🏗️ Earn LUXBIN Tokens</h3>
+              <h3 className="text-2xl font-bold mb-4 text-center">🏗️ Earn LUX Tokens</h3>
               <p className="text-gray-300 mb-6 text-center">Build, validate, or contribute to earn LUX rewards</p>
 
               <div className="grid md:grid-cols-3 gap-4">
@@ -613,12 +613,12 @@ export default function Home() {
         <section className="relative px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Why LUXBIN?</h2>
-              <p className="text-gray-400 text-lg">Revolutionary blockchain technology</p>
+              <h2 className="text-4xl font-bold mb-4">Why NicheAI?</h2>
+              <p className="text-gray-400 text-lg">Revolutionary AI and blockchain technology</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. LUXBIN is completely gasless." },
+                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. NicheAI blockchain is completely gasless." },
                 { icon: "⚡", title: "Lightning Fast", description: "6-second block finality with Aura + GRANDPA consensus. Fast enough for real-time applications." },
                 { icon: "🎯", title: "Coinbase Smart Wallet", description: "First Substrate chain with ERC-4337 account abstraction. Native support for Coinbase Smart Wallets with social recovery, batch ops, and gasless transactions." },
                 { icon: "🔐", title: "Quantum Resistant", description: "Built with quantum cryptography and advanced security patterns to resist future quantum computing attacks." },
@@ -695,10 +695,10 @@ export default function Home() {
             </div>
             <div className="text-center text-gray-500 text-sm pt-8 border-t border-white/10">
               <p className="mb-2">
-                LUXBIN - The World's First Gasless Layer 1 Blockchain
+                NicheAI - Where Quantum AI Meets Blockchain Innovation
               </p>
               <p className="text-xs">
-                Created by Nichole Christie • © 2024 LUXBIN Protocol • Open Source
+                Created by Nichole Christie • © 2024 NicheAI • Open Source
               </p>
               <p className="text-xs mt-2">
                 Contact: <a href="mailto:Nicholechristie555@gmail.com" className="text-purple-400 hover:text-purple-300">Nicholechristie555@gmail.com</a>
