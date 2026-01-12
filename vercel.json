@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.9"
+      }
     }
   ],
   "routes": [
@@ -25,5 +28,13 @@
   "regions": ["iad1"],
   "github": {
     "silent": true
-  }
+  },
+  "ignore": [
+    "luxbin-app/**",
+    "node_modules/**",
+    ".next/**",
+    "*.md",
+    "quantum_results_*",
+    "frankenstein_video.mp4"
+  ]
 }
