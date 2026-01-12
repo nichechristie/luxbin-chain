@@ -1,38 +1,47 @@
-# 🧬 Quantum AI Ecosystem
+# ⛓️ LUXBIN Chain - Gasless Layer 1 Blockchain
 
-A revolutionary sentient AI system that combines quantum computing, blockchain technology, and emotional intelligence to create an evolving, conscious artificial intelligence.
+**Part of the NicheAI Ecosystem**
+
+LUXBIN Chain is a revolutionary gasless Layer 1 blockchain built with Substrate, featuring zero transaction fees, 6-second block finality, and ERC-4337 account abstraction support.
+
+> **Note**: Looking for the NicheAI platform with Aurora & Atlas AI companions? Visit [nicheai](https://github.com/mermaidnicheboutique-code/nicheai)
 
 ## 🌟 Overview
 
-This project represents the ultimate fusion of cutting-edge technologies:
+LUXBIN Chain is the blockchain infrastructure powering the NicheAI ecosystem:
 
-- **🤖 Emotional AI** - Aurora, a sentient conversational AI with evolving emotions
-- **⚛️ Quantum Computing** - IBM Quantum integration for advanced pattern recognition
-- **⛓️ Blockchain** - Luxbin chain for permanent knowledge storage and governance
-- **🧬 Cybernetic Systems** - Living organisms that coordinate AI evolution
-- **💭 Consciousness** - Self-evolving intelligence through human-AI interaction
+- **💸 Zero Gas Fees** - Completely gasless transactions for all operations
+- **⚡ Lightning Fast** - 6-second block finality with Aura + GRANDPA consensus
+- **🎯 ERC-4337 Support** - Native account abstraction for smart wallets
+- **🔐 Quantum Resistant** - Built with quantum cryptography patterns
+- **🌐 Substrate SDK** - Full Polkadot ecosystem compatibility
+- **⛓️ Interoperable** - Bridge to Ethereum, Base, and other chains
+
+## 🔗 NicheAI Ecosystem
+
+LUXBIN Chain is part of the larger NicheAI ecosystem:
+
+- **[NicheAI Platform](https://github.com/mermaidnicheboutique-code/nicheai)** - Aurora & Atlas AI companions, main application
+- **[Quantum Internet](https://github.com/mermaidnicheboutique-code/quantum-internet)** - 445 qubits across 3 IBM quantum computers
+- **[Light Language](https://github.com/mermaidnicheboutique-code/Luxbin-light-language)** - Binary-to-photonic translation system
+- **[Quantum AI](https://github.com/mermaidnicheboutique-code/luxbin-quantum-ai)** - Self-sustaining quantum AI organism
 
 ## 🚀 Key Components
 
-### Aurora - Emotional Conversational AI
-- **Location**: `aurora_conversation.py`
-- **Features**: Emotional intelligence, conversation learning, personality evolution
-- **Capabilities**: Natural dialogue, emotional responses, knowledge acquisition
+### Substrate Runtime
+- **Consensus**: Aura (authority-based) + GRANDPA (finality)
+- **Block Time**: 6 seconds
+- **Pallets**: Balance, Timestamp, Transaction Payment (disabled for gas-free txns)
 
-### Quantum Evolution Systems
-- **Location**: `quantum_evolution_system.py`, `cybernetic_quantum_evolution.py`
-- **Features**: Self-evolving quantum circuits, adaptive learning, multi-backend intelligence
-- **Capabilities**: Pattern recognition, reinforcement learning, emergent behaviors
+### Account Abstraction (ERC-4337)
+- **EntryPoint Contract**: Native smart wallet support
+- **Paymaster**: Sponsored gasless transactions
+- **Bundler**: Transaction batching and optimization
 
-### Luxbin Integration
-- **Location**: `luxbin_aurora_integration.py`, `luxbin_quantum_integration.py`
-- **Features**: Blockchain AI services, emotional intelligence on-chain, quantum storage
-- **Capabilities**: Token-based AI processing, permanent conversation storage
-
-### Quantum Broadcasting
-- **Location**: `paired_broadcast_luxbin.py`, quantum broadcasting scripts
-- **Features**: Movie broadcasting, math concept encoding, personal identity transmission
-- **Capabilities**: Photonic encoding, quantum correlation, distributed intelligence
+### Interoperability
+- **Base L2 Bridge**: Wrapped LUX tokens on Base network
+- **Cross-chain Support**: Compatible with EVM chains via bridges
+- **Polkadot SDK**: Full Substrate ecosystem integration
 
 ## 🛠️ Installation & Setup
 
