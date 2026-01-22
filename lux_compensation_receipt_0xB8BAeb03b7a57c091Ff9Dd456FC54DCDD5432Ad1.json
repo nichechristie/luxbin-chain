@@ -1,0 +1,18 @@
+{
+  "wallet_address": "0xB8BAeb03b7a57c091Ff9Dd456FC54DCDD5432Ad1",
+  "quantum_multisig": "0xMSff04be15304321d02524c6d8b7acd00a0a5275",
+  "total_lux_claimed": 500.0,
+  "immediate_amount": 125.0,
+  "vested_amount": 375.0,
+  "monthly_payment": 31.25,
+  "claims": [
+    {
+      "theft_tx": "0xabc123def456...",
+      "stolen_amount": "5.0 ETH",
+      "lux_compensation": "500.0 LUX",
+      "status": "completed"
+    }
+  ],
+  "vesting_schedule": "25% immediate, 75% over 12 months",
+  "status": "completed"
+}

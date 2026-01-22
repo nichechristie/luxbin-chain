@@ -1,0 +1,32 @@
+# LUXBIN Chatbot Dependencies (Updated - Fixed version conflicts)
+# For ChatGPT/Claude intelligence
+
+# Core - Required
+flask>=3.0.0
+flask-cors>=4.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# AI APIs - At least ONE required for full intelligence
+openai>=1.0.0              # ChatGPT
+anthropic>=0.7.0           # Claude
+google-generativeai>=0.3.0 # Gemini (FREE!)
+
+# Image/Photonic Encoding
+Pillow>=10.0.0
+matplotlib>=3.8.0
+numpy>=1.24.0
+seaborn>=0.12.0
+
+# RAG/Vector Search (Optional - for codebase search)
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# Optional Performance Enhancements
+aiohttp>=3.9.0
+pandas>=2.0.0
+
+# Optional: Advanced features
+# web3>=6.0.0              # Blockchain tools
+# langchain>=0.1.0         # Advanced RAG
+# transformers>=4.30.0     # Local models

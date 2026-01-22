@@ -135,6 +135,32 @@ pub struct AIComputeResult<AccountId> {
 	pub temporal_proof: H512,
 }
 
+/// Trinity Cryptography Key
+#[derive(Clone, Encode, Decode, TypeInfo, MaxEncodedLen)]
+pub struct TrinityKey {
+	/// Diamond hardware signature (LDD-enhanced)
+	pub diamond_signature: H512,
+	/// Acoustic key (from shielding waves)
+	pub acoustic_key: H256,
+	/// Temporal lock timestamp
+	pub temporal_lock: u64,
+	/// Combined trinity key
+	pub trinity_hash: H512,
+}
+
+/// Trinity Encryption Parameters
+#[derive(Clone, Encode, Decode, TypeInfo, MaxEncodedLen)]
+pub struct TrinityEncryption {
+	/// Original data hash
+	pub data_hash: H256,
+	/// Trinity key used for encryption
+	pub trinity_key: TrinityKey,
+	/// Encrypted data (simplified as hash for on-chain storage)
+	pub encrypted_data: H512,
+	/// Decryption timestamp window
+	pub valid_until: u64,
+}
+
 #[frame_support::pallet]
 pub mod pallet {
 	use super::*;
@@ -218,6 +244,28 @@ pub mod pallet {
 		OptionQuery,
 	>;
 
+	/// Storage for Trinity keys indexed by account
+	#[pallet::storage]
+	#[pallet::getter(fn trinity_keys)]
+	pub type TrinityKeys<T: Config> = StorageMap<
+		_,
+		Blake2_128Concat,
+		T::AccountId,
+		TrinityKey,
+		OptionQuery,
+	>;
+
+	/// Storage for Trinity encryptions indexed by data hash
+	#[pallet::storage]
+	#[pallet::getter(fn trinity_encryptions)]
+	pub type TrinityEncryptions<T: Config> = StorageMap<
+		_,
+		Blake2_128Concat,
+		H256, // data_hash
+		TrinityEncryption,
+		OptionQuery,
+	>;
+
 	/// Storage for AI node registrations
 	#[pallet::storage]
 	#[pallet::getter(fn ai_nodes)]
@@ -254,6 +302,12 @@ pub mod pallet {
 		AIComputeVerified { request_id: u64, node: T::AccountId, payment: BalanceOf<T> },
 		/// AI compute failed
 		AIComputeFailed { request_id: u64, reason: Vec<u8> },
+		/// Trinity key generated
+		TrinityKeyGenerated { account: T::AccountId, trinity_hash: H512 },
+		/// Data encrypted with trinity cryptography
+		TrinityEncrypted { account: T::AccountId, data_hash: H256 },
+		/// Data decrypted with trinity cryptography
+		TrinityDecrypted { account: T::AccountId, data_hash: H256 },
 	}
 
 	#[pallet::error]
@@ -284,6 +338,14 @@ pub mod pallet {
 		NotAuthorizedNode,
 		/// Request already completed
 		RequestAlreadyCompleted,
+		/// Trinity key not found
+		TrinityKeyNotFound,
+		/// Encryption expired
+		EncryptionExpired,
+		/// Invalid trinity key
+		InvalidTrinityKey,
+		/// Decryption failed
+		DecryptionFailed,
 	}
 
 	#[pallet::call]
@@ -626,20 +688,222 @@ pub mod pallet {
 
 			Ok(())
 		}
+
+		/// Generate a Trinity cryptographic key
+		///
+		/// Combines diamond hardware signature, acoustic key, and temporal lock
+		///
+		/// # Weight
+		/// O(1) - Cryptographic operations
+		#[pallet::call_index(7)]
+		#[pallet::weight(15_000)]
+		pub fn generate_trinity_key(
+			origin: OriginFor<T>,
+			acoustic_key: H256,
+		) -> DispatchResult {
+			let who = ensure_signed(origin)?;
+
+			let timestamp = T::TimeProvider::now() / 1000;
+
+			// Generate LDD-enhanced diamond signature
+			let diamond_signature = Self::generate_diamond_signature(&who, timestamp)?;
+
+			// Create temporal lock (valid for 24 hours)
+			let temporal_lock = timestamp + 86400;
+
+			// Combine all three elements
+			let trinity_hash = Self::combine_trinity_elements(
+				diamond_signature,
+				acoustic_key,
+				temporal_lock,
+			)?;
+
+			let trinity_key = TrinityKey {
+				diamond_signature,
+				acoustic_key,
+				temporal_lock,
+				trinity_hash,
+			};
+
+			// Store trinity key
+			TrinityKeys::<T>::insert(&who, trinity_key);
+
+			Self::deposit_event(Event::TrinityKeyGenerated {
+				account: who,
+				trinity_hash,
+			});
+
+			Ok(())
+		}
+
+		/// Encrypt data using Trinity cryptography
+		///
+		/// # Parameters
+		/// - `data_hash`: Hash of the data to encrypt
+		/// - `valid_duration`: How long encryption should be valid (seconds)
+		///
+		/// # Weight
+		/// O(1)
+		#[pallet::call_index(8)]
+		#[pallet::weight(10_000)]
+		pub fn trinity_encrypt(
+			origin: OriginFor<T>,
+			data_hash: H256,
+			valid_duration: u64,
+		) -> DispatchResult {
+			let who = ensure_signed(origin)?;
+
+			// Get trinity key
+			let trinity_key = TrinityKeys::<T>::get(&who)
+				.ok_or(Error::<T>::TrinityKeyNotFound)?;
+
+			let timestamp = T::TimeProvider::now() / 1000;
+			let valid_until = timestamp + valid_duration;
+
+			// Perform trinity encryption
+			let encrypted_data = Self::perform_trinity_encryption(data_hash, &trinity_key)?;
+
+			let encryption = TrinityEncryption {
+				data_hash,
+				trinity_key,
+				encrypted_data,
+				valid_until,
+			};
+
+			// Store encryption
+			TrinityEncryptions::<T>::insert(data_hash, encryption);
+
+			Self::deposit_event(Event::TrinityEncrypted {
+				account: who,
+				data_hash,
+			});
+
+			Ok(())
+		}
+
+		/// Decrypt data using Trinity cryptography
+		///
+		/// # Parameters
+		/// - `data_hash`: Hash of the data to decrypt
+		///
+		/// # Weight
+		/// O(1)
+		#[pallet::call_index(9)]
+		#[pallet::weight(10_000)]
+		pub fn trinity_decrypt(
+			origin: OriginFor<T>,
+			data_hash: H256,
+		) -> DispatchResult {
+			let who = ensure_signed(origin)?;
+
+			// Get encryption
+			let encryption = TrinityEncryptions::<T>::get(data_hash)
+				.ok_or(Error::<T>::TrinityKeyNotFound)?;
+
+			let current_time = T::TimeProvider::now() / 1000;
+
+			// Check if encryption is still valid
+			ensure!(current_time <= encryption.valid_until, Error::<T>::EncryptionExpired);
+
+			// Verify trinity key ownership
+			let stored_key = TrinityKeys::<T>::get(&who)
+				.ok_or(Error::<T>::TrinityKeyNotFound)?;
+			ensure!(stored_key.trinity_hash == encryption.trinity_key.trinity_hash, Error::<T>::InvalidTrinityKey);
+
+			// Perform decryption verification
+			Self::verify_trinity_decryption(data_hash, &encryption)?;
+
+			Self::deposit_event(Event::TrinityDecrypted {
+				account: who,
+				data_hash,
+			});
+
+			Ok(())
+		}
 	}
 }
 
 impl<T: Config> Pallet<T> {
+	/// LDD (Lightning Diamond Device) Enhanced Key Generation
+	///
+	/// Uses diamond physics formula: Ψ(t) = C(t) · R(t) · D(t) · B(t) · I(t)
+	/// Where:
+	/// - C = Diamond Stability (carbon lattice integrity)
+	/// - R = Quartz Resonance (vibrational frequency)
+	/// - D = Defect Entropy (NV center defects)
+	/// - B = Boundary Coupling (interface energy)
+	/// - I = Interface Diffusion (atomic diffusion)
+	///
+	/// # Returns
+	/// LDD-enhanced cryptographic key
+	fn compute_ldd_key(timestamp: u64, base_key: H512) -> H512 {
+		// Simulate diamond physics parameters
+		let c_stability = Self::diamond_stability(timestamp);
+		let r_resonance = Self::quartz_resonance(timestamp);
+		let d_entropy = Self::defect_entropy(base_key);
+		let b_coupling = Self::boundary_coupling(base_key);
+		let i_diffusion = Self::interface_diffusion(timestamp, base_key);
+
+		// Combine using LDD formula
+		let psi = c_stability * r_resonance * d_entropy * b_coupling * i_diffusion;
+
+		// Convert to key
+		let mut hasher = Sha3_512::new();
+		hasher.update(&psi.to_le_bytes());
+		hasher.update(base_key.as_bytes());
+		let result = hasher.finalize();
+
+		H512::from_slice(&result[..])
+	}
+
+	/// Diamond stability factor (simulated)
+	fn diamond_stability(timestamp: u64) -> f64 {
+		// Simulate carbon lattice stability over time
+		let base_stability = 0.99; // 99% stable
+		let degradation = (timestamp % 86400) as f64 / 86400.0 * 0.01; // Daily cycle
+		base_stability - degradation
+	}
+
+	/// Quartz resonance factor (simulated)
+	fn quartz_resonance(timestamp: u64) -> f64 {
+		// Simulate crystal resonance frequency
+		let base_freq = 32.768; // kHz
+		let variation = ((timestamp % 1000) as f64 / 1000.0).sin() * 0.01;
+		base_freq + variation
+	}
+
+	/// Defect entropy from key hash
+	fn defect_entropy(key: H512) -> f64 {
+		// Use key bytes to simulate defect density
+		let sum: u32 = key.as_bytes().iter().map(|&b| b as u32).sum();
+		(sum as f64 / (64.0 * 255.0)) * 2.0 - 1.0 // Normalize to [-1, 1]
+	}
+
+	/// Boundary coupling energy
+	fn boundary_coupling(key: H512) -> f64 {
+		// Simulate interface coupling
+		let first_byte = key.as_bytes()[0] as f64;
+		first_byte / 255.0 * 2.0 + 0.5 // [0.5, 2.5]
+	}
+
+	/// Interface diffusion rate
+	fn interface_diffusion(timestamp: u64, key: H512) -> f64 {
+		let time_factor = (timestamp % 3600) as f64 / 3600.0;
+		let key_factor = key.as_bytes()[1] as f64 / 255.0;
+		time_factor * key_factor + 0.1
+	}
+
 	/// Core temporal key generation algorithm
 	///
 	/// # Process:
 	/// 1. Convert timestamp to binary
 	/// 2. Encode phrase using LUXBIN photonic encoding
 	/// 3. Combine time binary + photonic binary
-	/// 4. Hash with SHA3-512
+	/// 4. Hash with SHA3-512 to get base key
+	/// 5. Apply LDD enhancement
 	///
 	/// # Returns
-	/// 512-bit temporal cryptographic key
+	/// 512-bit LDD-enhanced temporal cryptographic key
 	fn compute_temporal_key(timestamp: u64, phrase: &[u8]) -> Result<H512, Error<T>> {
 		// 1. Time to binary
 		let time_binary = Self::timestamp_to_binary(timestamp);
@@ -651,12 +915,15 @@ impl<T: Config> Pallet<T> {
 		let mut combined = time_binary;
 		combined.extend_from_slice(&photonic_data.binary);
 
-		// 4. Hash with SHA3-512
+		// 4. Hash with SHA3-512 to get base key
 		let mut hasher = Sha3_512::new();
 		hasher.update(&combined);
-		let result = hasher.finalize();
+		let base_key = H512::from_slice(&hasher.finalize()[..]);
 
-		Ok(H512::from_slice(&result[..]))
+		// 5. Apply LDD enhancement
+		let ldd_key = Self::compute_ldd_key(timestamp, base_key);
+
+		Ok(ldd_key)
 	}
 
 	/// Convert timestamp to binary representation
@@ -800,5 +1067,282 @@ impl<T: Config> Pallet<T> {
 		proof_hasher.update(output_hmac.as_bytes());
 		let proof_result = proof_hasher.finalize();
 		Ok(H512::from_slice(&proof_result[..]))
+	}
+
+	/// Generate diamond hardware signature using LDD
+	fn generate_diamond_signature<AccountId>(account: &AccountId, timestamp: u64) -> Result<H512, Error<T>>
+	where
+		AccountId: Encode,
+	{
+		let mut data = Vec::new();
+		account.encode_to(&mut data);
+		data.extend_from_slice(&timestamp.to_le_bytes());
+
+		// Apply LDD enhancement
+		let base_key = Self::compute_ldd_key(timestamp, H512::from_slice(&Sha3_512::digest(&data)[..]));
+
+		Ok(base_key)
+	}
+
+	/// Combine diamond, acoustic, and temporal elements into trinity hash
+	fn combine_trinity_elements(
+		diamond_signature: H512,
+		acoustic_key: H256,
+		temporal_lock: u64,
+	) -> Result<H512, Error<T>> {
+		let mut combined = Vec::new();
+		combined.extend_from_slice(diamond_signature.as_bytes());
+		combined.extend_from_slice(acoustic_key.as_bytes());
+		combined.extend_from_slice(&temporal_lock.to_le_bytes());
+
+		let mut hasher = Sha3_512::new();
+		hasher.update(&combined);
+		let result = hasher.finalize();
+
+		Ok(H512::from_slice(&result[..]))
+	}
+
+	/// Perform trinity encryption
+	fn perform_trinity_encryption(data_hash: H256, trinity_key: &TrinityKey) -> Result<H512, Error<T>> {
+		let mut combined = Vec::new();
+		combined.extend_from_slice(data_hash.as_bytes());
+		combined.extend_from_slice(trinity_key.trinity_hash.as_bytes());
+
+		let mut hasher = Sha3_512::new();
+		hasher.update(&combined);
+		let result = hasher.finalize();
+
+		Ok(H512::from_slice(&result[..]))
+	}
+
+	/// Verify trinity decryption
+	fn verify_trinity_decryption(data_hash: H256, encryption: &TrinityEncryption) -> Result<(), Error<T>> {
+		let computed_encrypted = Self::perform_trinity_encryption(data_hash, &encryption.trinity_key)?;
+		ensure!(computed_encrypted == encryption.encrypted_data, Error::<T>::DecryptionFailed);
+		Ok(())
+	}
+
+	// ============================================================================
+	// Lightning Diamond Device (LDD) Consensus Mathematics
+	// ============================================================================
+	//
+	// The LDD algorithm models blockchain consensus as a crystallographic state
+	// function inspired by solid-state physics. The consensus state Ψ(t) is
+	// computed as the product of five component terms representing different
+	// aspects of network behavior.
+	//
+	// Core Equation: Ψ(t) = C(t) · R(t) · D(t) · B(t) · I(t)
+
+	/// Compute Lightning Diamond Device (LDD) consensus state
+	///
+	/// # Parameters
+	/// - `block_time`: Current blockchain timestamp
+	/// - `validator_id`: AccountId hash (u64) for validator selection
+	/// - `finality_depth`: Number of finalized blocks
+	/// - `network_temperature`: Network activity metric (0-1000)
+	///
+	/// # Returns
+	/// Normalized consensus state value (0.0 to 1.0)
+	pub fn compute_ldd_state(
+		block_time: u64,
+		validator_id: u64,
+		finality_depth: u32,
+		network_temperature: u32,
+	) -> Result<u64, Error<T>> {
+		// Compute each LDD component
+		let c = Self::diamond_stability(finality_depth);
+		let r = Self::quartz_resonance(block_time, validator_id);
+		let d = Self::defect_entropy(network_temperature);
+		let b = Self::boundary_coupling(block_time);
+		let i = Self::interface_diffusion(network_temperature);
+
+		// Multiply components (using fixed-point arithmetic: scale by 1000)
+		// Ψ(t) = C · R · D · B · I
+		let psi = (c as u128)
+			.saturating_mul(r as u128)
+			.saturating_mul(d as u128)
+			.saturating_mul(b as u128)
+			.saturating_mul(i as u128);
+
+		// Normalize to 0-1000 range (divide by 1000^4 since each component is scaled by 1000)
+		let normalized = (psi / 1_000_000_000_000u128) as u64;
+
+		Ok(normalized.min(1000))
+	}
+
+	/// C(t) - Diamond Stability (Consensus Finality)
+	///
+	/// Models the energy barrier for block reorganization using Boltzmann-like statistics.
+	/// Higher finality depth = higher stability (harder to reorg).
+	///
+	/// Formula: C(t) = 1 / (1 + β·ΔE(t))
+	/// where β = inverse temperature, ΔE = energy barrier
+	///
+	/// # Returns
+	/// Stability coefficient (0-1000, scaled by 1000)
+	fn diamond_stability(finality_depth: u32) -> u64 {
+		// β (beta) = network difficulty parameter (inverse temperature)
+		const BETA: u64 = 10;
+
+		// ΔE = finality depth (number of confirmed blocks)
+		let delta_e = finality_depth as u64;
+
+		// C(t) = 1000 / (1 + β·ΔE)
+		// Scale by 1000 for fixed-point arithmetic
+		let denominator = 1u64.saturating_add(BETA.saturating_mul(delta_e));
+		1000u64.saturating_mul(1000) / denominator.max(1)
+	}
+
+	/// R(t) - Quartz Resonance (Block Time Precision)
+	///
+	/// Creates temporal oscillation for time-based proofs using sinusoidal function.
+	/// Validators synchronize to natural frequency of network (target block time).
+	///
+	/// Formula: R(t) = A·sin(ωt + φ)
+	/// where ω = natural frequency (2π/T), φ = validator phase offset
+	///
+	/// # Returns
+	/// Resonance amplitude (0-1000, scaled by 1000)
+	fn quartz_resonance(block_time: u64, validator_id: u64) -> u64 {
+		// Target block time: 6 seconds
+		const TARGET_BLOCK_TIME: u64 = 6;
+
+		// Natural frequency: ω = 2π/T (approximated as 1047/T for fixed-point)
+		const OMEGA: u64 = 1047 / TARGET_BLOCK_TIME; // ~= 2π/6
+
+		// Phase offset derived from validator ID (0 to 2π)
+		let phase = (validator_id % 6283) as i64; // 6283 ≈ 2π * 1000
+
+		// Calculate ωt + φ
+		let angle = ((OMEGA * block_time) as i64).wrapping_add(phase);
+
+		// Approximate sin using Taylor series (first 3 terms)
+		// sin(x) ≈ x - x³/6 + x⁵/120
+		let x = (angle % 6283) - 3141; // Normalize to [-π, π]
+		let x2 = x * x / 1000;
+		let x3 = x2 * x / 1000;
+
+		let sin_approx = x - (x3 / 6);
+
+		// Normalize to 0-1000 range: (sin + 1) * 500
+		let normalized = ((sin_approx + 1000) * 500 / 1000) as u64;
+
+		normalized.max(100).min(1000) // Clamp to [100, 1000]
+	}
+
+	/// D(t) - Defect Entropy (Network Randomness)
+	///
+	/// Models lattice defects in crystal structure for validator selection randomness.
+	/// Uses exponential decay based on network temperature (activity level).
+	///
+	/// Formula: D(t) = exp(-E_d / k_B·T(t))
+	/// where E_d = defect formation energy, T = network temperature
+	///
+	/// # Returns
+	/// Entropy coefficient (0-1000, scaled by 1000)
+	fn defect_entropy(network_temperature: u32) -> u64 {
+		// Defect formation energy (barrier for validator churn)
+		const DEFECT_ENERGY: u64 = 1000;
+
+		// Boltzmann constant (scaled)
+		const K_B: u64 = 1;
+
+		// Temperature (scaled by network activity: 0-1000)
+		let temp = (network_temperature as u64).max(1); // Avoid division by zero
+
+		// D(t) = exp(-E_d / k_B·T)
+		// Approximate exp(-x) using: 1 / (1 + x + x²/2) for small x
+		let exponent = (DEFECT_ENERGY * 1000) / (K_B * temp);
+		let x = exponent.min(10_000); // Cap to prevent overflow
+
+		// exp(-x) ≈ 1000 / (1 + x/1000 + x²/2000000)
+		let denominator = 1000u64
+			.saturating_add(x)
+			.saturating_add((x * x) / 2_000_000);
+
+		(1_000_000u64 / denominator.max(1)).min(1000)
+	}
+
+	/// B(t) - Boundary Coupling (P2P Connectivity)
+	///
+	/// Models edge states in graphene-like structure for consensus propagation.
+	/// Simulates how consensus information spreads through peer network.
+	///
+	/// Formula: B(t) = Σ exp(-d_ij / λ)
+	/// where d_ij = network distance, λ = coupling length
+	///
+	/// # Returns
+	/// Coupling coefficient (0-1000, scaled by 1000)
+	fn boundary_coupling(block_time: u64) -> u64 {
+		// Coupling length λ (gossip propagation radius)
+		const LAMBDA: u64 = 10;
+
+		// Simulate network distance based on block time modulo
+		// (In full implementation, would use actual peer graph)
+		let d_ij = (block_time % 100) / 10; // Distance metric (0-10)
+
+		// B(t) = exp(-d/λ) * 1000
+		// Use approximation: exp(-x) ≈ 1 / (1 + x)
+		let exponent = (d_ij * 1000) / LAMBDA;
+		let coupling = 1000u64 / (1u64.saturating_add(exponent));
+
+		coupling.max(500).min(1000) // Ensure minimum connectivity
+	}
+
+	/// I(t) - Interface Diffusion (Transaction Throughput)
+	///
+	/// Models carrier mobility at semiconductor interfaces for transaction flow.
+	/// Higher temperature (activity) = faster diffusion (throughput).
+	///
+	/// Formula: I(t) = μ·E_field(t)
+	/// where μ = carrier mobility, E_field = fee gradient
+	///
+	/// # Returns
+	/// Diffusion coefficient (0-1000, scaled by 1000)
+	fn interface_diffusion(network_temperature: u32) -> u64 {
+		// Carrier mobility μ (transaction processing speed)
+		const MOBILITY: u64 = 100;
+
+		// Electric field (fee gradient) derived from network temperature
+		let e_field = (network_temperature as u64).min(1000);
+
+		// I(t) = μ·E_field / 100 (normalized)
+		let diffusion = (MOBILITY * e_field) / 100;
+
+		diffusion.max(100).min(1000) // Clamp to [100, 1000]
+	}
+
+	/// Validate block using LDD consensus
+	///
+	/// A block is considered valid if its LDD state Ψ(t) exceeds the consensus threshold.
+	///
+	/// # Parameters
+	/// - `block_time`: Block timestamp
+	/// - `validator_id`: Hash of validator account ID
+	/// - `finality_depth`: Number of finalized blocks
+	///
+	/// # Returns
+	/// true if block passes LDD consensus validation
+	pub fn validate_block_ldd(
+		block_time: u64,
+		validator_id: u64,
+		finality_depth: u32,
+	) -> bool {
+		// Get network temperature (simplified: based on block time variance)
+		let network_temp = ((block_time % 1000) as u32).min(1000);
+
+		// Compute LDD state
+		if let Ok(psi) = Self::compute_ldd_state(
+			block_time,
+			validator_id,
+			finality_depth,
+			network_temp,
+		) {
+			// Consensus threshold: Ψ(t) must exceed 500 (50% of max)
+			const CONSENSUS_THRESHOLD: u64 = 500;
+			psi >= CONSENSUS_THRESHOLD
+		} else {
+			false
+		}
 	}
 }

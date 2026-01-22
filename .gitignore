@@ -1,88 +1,18 @@
-# Rust
-target/
-Cargo.lock
-**/*.rs.bk
+# Foundry Build Artifacts
+contracts/artifacts/
+contracts/broadcast/
+contracts/cache/
+contracts/out/
+*.lock
+foundry.lock
 
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# Database files
-*.db
-*.db-journal
-
-# Node data
-chains/
-network/
-
-# Build artifacts
-build/
-dist/
-
-# Temporary files
-*.tmp
-*.temp
-
-# Environment variables
-.env
-.env.local
-
-# Secrets and keys (IMPORTANT: Never commit these!)
-*.key
-*.pem
-secrets/
-keys/
-
-# Benchmark results
-benchmarks/
-
-# Documentation build
-docs/build/
-docs/.doctrees/
-
-# Test coverage
-coverage/
-*.profraw
-
-# Backup files
-*.bak
-*.backup
-
-# Substrate specific
-node_modules/
-wasm/
-
-# Cargo
-.cargo/
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Linux
-*~
-
-# Node.js (if any)
+# Node.js
 node_modules/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Python (if any)
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -91,9 +21,84 @@ __pycache__/
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+.venv
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
 
-# Temporary directories
+# Environment Variables
+.env
+.env.local
+.env.*.local
+*.key
+*.secret
+tesla_tokens.json
+crypto_keys_json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+quantum_consciousness_db/
+
+# Testing
+coverage/
+.coverage
+.pytest_cache/
+.tox/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Cache directories
+.cache/
+.npm/
+.conda/
+
+# Temporary files
+*.tmp
+*.temp
 tmp/
 temp/
+
+# Generated blockchain data
+luxbin_mirror/
+
+# Rust build artifacts
+target/
+.vercel
+.env*.local
+
+# Next.js
+.next/
+
+# Unreal Engine
+Documents/Unreal Projects/*/Saved/
+Documents/Unreal Projects/*/Intermediate/
+Documents/Unreal Projects/*/DerivedDataCache/
+
+# Epic Games Cache
+Library/Application Support/Epic/
+
+# Desktop temporary files
+Desktop/Other/
+
+# Quantum Wallet Security - Sensitive Files
+recovery_kit_*.json
+test_wallet_config.json
+quantum_validator_*.json
+ibm_quantum_credentials.json
+**/recovery_kit_*.json
+**/test_wallet_config.json

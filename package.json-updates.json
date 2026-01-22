@@ -1,0 +1,27 @@
+{
+  "name": "luxbin-app",
+  "version": "1.0.0",
+  "description": "LuxBin App with NicheAI Quantum Collective Integration",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "next": "^13.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "axios": "^1.4.0",
+    "socket.io-client": "^4.7.0",
+    "react-force-graph": "^1.0.0",
+    "d3": "^7.8.0",
+    "@vercel/python": "^3.0.0",
+    "python-shell": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^13.0.0"
+  }
+}
